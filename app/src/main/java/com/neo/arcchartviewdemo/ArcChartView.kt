@@ -11,20 +11,21 @@ import com.neo.arcchartviewdemo.R
  * Created by iman.
  * iman.neofight@gmail.com
  */
-class ArcChartView : View {
-    private lateinit var mContext : Context
-    private lateinit var drawLinePaint: Paint
-    private lateinit var bgPaint : Paint
-    private lateinit var clearPaint : Paint
+class ArcChartView @JvmOverloads constructor(val mContext : Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+        View(mContext,attrs, defStyleAttr) {
+    private var drawLinePaint: Paint
+    private var bgPaint : Paint
+    private var clearPaint : Paint
 
-    var linesSpace = 0f
-    var lineStrokewidth = 0f
-    var linesCount : Int = 0
-    var sectionDegree = 0f
-    var selectionsSpace = 0f
+    var linesSpace = DpHandler.dpToPx(mContext,4).toFloat()
+    var lineStrokeWidth = DpHandler.dpToPx(mContext,6).toFloat()
+    var linesCount : Int = 10
+
+    var sectionsCount : Int = 8
+    var sectionDegree = (360/sectionsCount).toFloat()
+    var selectionsSpace = DpHandler.dpToPx(mContext,4).toFloat()
     var bgColor = Color.WHITE
-    var sectionsCount : Int = 0
-    var midStartSize = 0f
+    var midStartSize = DpHandler.dpToPx(mContext,16).toFloat()
 
     var fills : MutableList<Int> = mutableListOf()
 
@@ -35,25 +36,10 @@ class ArcChartView : View {
     var filledColors: List<Int>? = null
     var unfilledColors: List<Int>? = null
 
-    var iconBmp : Bitmap? = null
-    var iconSize: Float = 0f
+    var iconBmp = BitmapFactory.decodeResource(context.resources,R.drawable.ic_star)
+    var iconSize: Float = DpHandler.dpToPx(mContext,16).toFloat()
 
-    constructor(ctx : Context) : super(ctx) {init(ctx)}
-    constructor(ctx : Context,attrs: AttributeSet) : super(ctx,attrs){init(ctx)}
-    constructor(ctx : Context,attrs: AttributeSet,defStyleAttr : Int) : super(ctx,attrs,defStyleAttr) {init(ctx)}
-    constructor(ctx : Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(ctx,attrs, defStyleAttr,defStyleRes) {init(ctx)}
-
-
-
-    private fun init(ctx: Context){
-        mContext = ctx
-
-
-        linesCount = 10
-        linesSpace = DpHandler.dpToPx(ctx,4).toFloat()
-        lineStrokewidth = DpHandler.dpToPx(ctx,6).toFloat()
-
-        sectionsCount = 8
+    init {
         fills.add(0,8)
         fills.add(1,7)
         fills.add(2,8)
@@ -75,31 +61,25 @@ class ArcChartView : View {
                 color(R.color.filled_section_5),color(R.color.filled_section_6),
                 color(R.color.filled_section_7),color(R.color.filled_section_8))
 
-        sectionDegree = (360/sectionsCount).toFloat()
-        selectionsSpace = DpHandler.dpToPx(ctx,4).toFloat()
+
+        drawLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.STROKE
+            strokeWidth = lineStrokeWidth
+        }
 
 
-        drawLinePaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        drawLinePaint.style = Paint.Style.STROKE
-        drawLinePaint.strokeWidth = lineStrokewidth
+        bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = bgColor
+        }
 
 
-        bgPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        bgPaint.color = bgColor
-
-
-        clearPaint = Paint(Paint.ANTI_ALIAS_FLAG)
-        clearPaint.strokeWidth = selectionsSpace
-        clearPaint.color = bgColor
-        clearPaint.style = Paint.Style.FILL_AND_STROKE
-
-
-        midStartSize = DpHandler.dpToPx(ctx,16).toFloat()
-
-
-        iconBmp = BitmapFactory.decodeResource(context.resources,R.drawable.ic_star)
-        iconSize = DpHandler.dpToPx(ctx,16).toFloat()
+        clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            strokeWidth = selectionsSpace
+            color = bgColor
+            style = Paint.Style.FILL_AND_STROKE
+        }
     }
+
 
     fun color(resId : Int) = ContextCompat.getColor(context,resId)
 
@@ -108,6 +88,7 @@ class ArcChartView : View {
         mWidth = measuredWidth
         mHeight = measuredHeight
     }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
@@ -120,10 +101,10 @@ class ArcChartView : View {
 
         //Draw unfilled arc lines
         for(i in 1..linesCount){
-            val left = centerX - (((lineStrokewidth + linesSpace) *i)+midStartSize)
-            val top = centerY - (((lineStrokewidth + linesSpace) *i)+midStartSize)
-            val right = centerX + (((lineStrokewidth + linesSpace) *i)+midStartSize)
-            val bot = centerY + (((lineStrokewidth + linesSpace) *i)+midStartSize)
+            val left = centerX - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
+            val top = centerY - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
+            val right = centerX + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
+            val bot = centerY + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
             var oval = RectF(left,top, right,bot)
 
             for(j in 0..(sectionsCount-1)){
@@ -137,10 +118,10 @@ class ArcChartView : View {
 
         //Draw filled arc lines
         for(i in 1..linesCount){
-            val left = centerX - (((lineStrokewidth + linesSpace) *i)+midStartSize)
-            val top = centerY - (((lineStrokewidth + linesSpace) *i)+midStartSize)
-            val right = centerX + (((lineStrokewidth + linesSpace) *i)+midStartSize)
-            val bot = centerY + (((lineStrokewidth + linesSpace) *i)+midStartSize)
+            val left = centerX - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
+            val top = centerY - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
+            val right = centerX + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
+            val bot = centerY + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
             var oval = RectF(left,top, right,bot)
 
             for(j in 0..(sectionsCount-1)){
@@ -156,7 +137,7 @@ class ArcChartView : View {
 
 
         //Draw Sections space
-        var radius = ((linesSpace + lineStrokewidth)*(linesCount))*2
+        var radius = ((linesSpace + lineStrokeWidth)*(linesCount))*2
         for(j in 0..(sectionsCount-1)){
             var degree = (j*sectionDegree).toDouble()
 
@@ -170,7 +151,7 @@ class ArcChartView : View {
 
 
         //Draw icons
-        radius = ((linesSpace + lineStrokewidth)*(linesCount)) + midStartSize + (iconSize * 2)
+        radius = ((linesSpace + lineStrokeWidth)*(linesCount)) + midStartSize + (iconSize * 2)
         for(j in 0..(sectionsCount-1)){
             var degree = (j*(sectionDegree)).toDouble()
             degree += (sectionDegree/2)
