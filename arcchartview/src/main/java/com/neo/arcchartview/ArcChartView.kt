@@ -43,6 +43,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     var sectionsCount : Int = 0
         set(value) {
             field = value
+            initRefreshCountRelateds()
             invalidate()
         }
 
@@ -73,7 +74,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
 
-    private var sectionDegree : Float
+    private var sectionDegree : Float = 0.0f
     private var mWidth : Int = 0
     private var mHeight : Int = 0
 
@@ -120,8 +121,27 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             a.recycle()
         }
 
+        initRefreshCountRelateds()
+
+        drawLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.STROKE
+            strokeWidth = linesWidth
+        }
 
 
+        bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            color = bgColor
+        }
+
+
+        clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            strokeWidth = sectionsSpace
+            color = bgColor
+            style = Paint.Style.FILL_AND_STROKE
+        }
+    }
+
+    private fun initRefreshCountRelateds() {
         sectionDegree = (360/sectionsCount).toFloat()
 
         var value = 0
@@ -159,24 +179,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
                 else -> Color.BLACK
             }
             unfilledColors.add(i,color)
-        }
-
-
-        drawLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            style = Paint.Style.STROKE
-            strokeWidth = linesWidth
-        }
-
-
-        bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = bgColor
-        }
-
-
-        clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            strokeWidth = sectionsSpace
-            color = bgColor
-            style = Paint.Style.FILL_AND_STROKE
         }
     }
 
