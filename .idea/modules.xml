@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ArcChartViewDemo.iml" filepath="$PROJECT_DIR$/ArcChartViewDemo.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arcchartview/arcchartview.iml" filepath="$PROJECT_DIR$/arcchartview/arcchartview.iml" />
     </modules>
   </component>
 </project>

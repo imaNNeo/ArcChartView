@@ -5,13 +5,12 @@ import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import com.neo.arcchartviewdemo.R
 
 /**
  * Created by iman.
  * iman.neofight@gmail.com
  */
-class ArcChartView @JvmOverloads constructor(val mContext : Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         View(mContext,attrs, defStyleAttr) {
     private var drawLinePaint: Paint
     private var bgPaint : Paint
