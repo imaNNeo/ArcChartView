@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ArcChartView">
+        <attr name="acv_lines_count" format="integer"/>
+        <attr name="acv_lines_space" format="dimension"/>
+        <attr name="acv_lines_width" format="dimension"/>
+
+        <attr name="acv_sections_count" format="integer"/>
+        <attr name="acv_sections_space" format="dimension"/>
+
+        <attr name="acv_mid_start_extra_offset" format="dimension"/>
+
+        <attr name="acv_bg_color" format="color"/>
+
+        <attr name="acv_icon_size" format="dimension"/>
+    </declare-styleable>
+    
+</resources>

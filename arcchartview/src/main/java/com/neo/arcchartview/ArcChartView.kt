@@ -10,60 +10,120 @@ import android.view.View
  * Created by iman.
  * iman.neofight@gmail.com
  */
-class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         View(mContext,attrs, defStyleAttr) {
+
+
     private var drawLinePaint: Paint
     private var bgPaint : Paint
     private var clearPaint : Paint
 
-    var linesSpace = DpHandler.dpToPx(mContext,4).toFloat()
-    var lineStrokeWidth = DpHandler.dpToPx(mContext,6).toFloat()
-    var linesCount : Int = 10
-
-    var sectionsCount : Int = 8
-    var sectionDegree = (360/sectionsCount).toFloat()
-    var selectionsSpace = DpHandler.dpToPx(mContext,4).toFloat()
-    var bgColor = Color.WHITE
-    var midStartSize = DpHandler.dpToPx(mContext,16).toFloat()
-
-    var fills : MutableList<Int> = mutableListOf()
 
 
-    var mWidth : Int = 0
-    var mHeight : Int = 0
+    var linesCount : Int
+    var linesWidth: Float
+    var linesSpace : Float
 
-    var filledColors: List<Int>? = null
-    var unfilledColors: List<Int>? = null
+    var sectionsCount : Int
+    var sectionsSpace: Float
+
+    var midStartExtraOffset: Float
+
+    var bgColor : Int
+
+    var iconSize: Float
+
+
+
+
+    private var sectionDegree : Float
+    private var mWidth : Int = 0
+    private var mHeight : Int = 0
+
+    private var fills : MutableList<Int> = mutableListOf()
+    private var filledColors: MutableList<Int> = mutableListOf()
+    private var unfilledColors: MutableList<Int> = mutableListOf()
 
     var iconBmp = BitmapFactory.decodeResource(context.resources,R.drawable.ic_star)
-    var iconSize: Float = DpHandler.dpToPx(mContext,16).toFloat()
 
     init {
-        fills.add(0,8)
-        fills.add(1,7)
-        fills.add(2,8)
-        fills.add(3,8)
-        fills.add(4,3)
-        fills.add(5,9)
-        fills.add(6,7)
-        fills.add(7,7)
+        linesCount = 10
+        linesSpace = DpHandler.dpToPx(mContext,4).toFloat()
+        linesWidth = DpHandler.dpToPx(mContext,6).toFloat()
 
-        filledColors = listOf(
-                color(R.color.unfilled_section_1),color(R.color.unfilled_section_2),
-                color(R.color.unfilled_section_3),color(R.color.unfilled_section_4),
-                color(R.color.unfilled_section_5),color(R.color.unfilled_section_6),
-                color(R.color.unfilled_section_7),color(R.color.unfilled_section_8))
+        sectionsCount = 8
+        sectionsSpace = DpHandler.dpToPx(mContext,4).toFloat()
 
-        unfilledColors = listOf(
-                color(R.color.filled_section_1),color(R.color.filled_section_2),
-                color(R.color.filled_section_3),color(R.color.filled_section_4),
-                color(R.color.filled_section_5),color(R.color.filled_section_6),
-                color(R.color.filled_section_7),color(R.color.filled_section_8))
+        midStartExtraOffset = DpHandler.dpToPx(mContext,16).toFloat()
+
+        bgColor = Color.WHITE
+
+        iconSize  = DpHandler.dpToPx(mContext,16).toFloat()
+
+        if(attrs!=null){
+            val a = mContext.obtainStyledAttributes(attrs,R.styleable.ArcChartView)
+
+            linesCount = a.getInt(R.styleable.ArcChartView_acv_lines_count,linesCount)
+            linesSpace = a.getDimension(R.styleable.ArcChartView_acv_lines_space,linesSpace)
+            linesWidth = a.getDimension(R.styleable.ArcChartView_acv_lines_width, linesWidth)
+
+            sectionsCount = a.getInt(R.styleable.ArcChartView_acv_sections_count,sectionsCount)
+            sectionsSpace = a.getDimension(R.styleable.ArcChartView_acv_sections_space,sectionsSpace)
+
+            midStartExtraOffset = a.getDimension(R.styleable.ArcChartView_acv_mid_start_extra_offset, midStartExtraOffset)
+
+            bgColor = a.getColor(R.styleable.ArcChartView_acv_bg_color,Color.WHITE)
+
+            iconSize = a.getDimension(R.styleable.ArcChartView_acv_icon_size,iconSize)
+
+            a.recycle()
+        }
+
+
+
+        sectionDegree = (360/sectionsCount).toFloat()
+
+        var value = 0
+        for(i in 0 until sectionsCount) {
+            if(value>=linesCount)value=0
+            fills.add(i, ++value)
+        }
+
+        for(i in 0 until sectionsCount) {
+            val color = when(i%8){
+                0 -> color(R.color.unfilled_section_1)
+                1 -> color(R.color.unfilled_section_2)
+                2 -> color(R.color.unfilled_section_3)
+                3 -> color(R.color.unfilled_section_4)
+                4 -> color(R.color.unfilled_section_5)
+                5 -> color(R.color.unfilled_section_6)
+                6 -> color(R.color.unfilled_section_7)
+                7 -> color(R.color.unfilled_section_8)
+                else -> Color.BLACK
+            }
+            filledColors.add(i,color)
+        }
+
+
+        for(i in 0 until sectionsCount) {
+            val color = when(i%8){
+                0 -> color(R.color.filled_section_1)
+                1 -> color(R.color.filled_section_2)
+                2 -> color(R.color.filled_section_3)
+                3 -> color(R.color.filled_section_4)
+                4 -> color(R.color.filled_section_5)
+                5 -> color(R.color.filled_section_6)
+                6 -> color(R.color.filled_section_7)
+                7 -> color(R.color.filled_section_8)
+                else -> Color.BLACK
+            }
+            unfilledColors.add(i,color)
+        }
 
 
         drawLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
-            strokeWidth = lineStrokeWidth
+            strokeWidth = linesWidth
         }
 
 
@@ -73,7 +133,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
         clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            strokeWidth = selectionsSpace
+            strokeWidth = sectionsSpace
             color = bgColor
             style = Paint.Style.FILL_AND_STROKE
         }
@@ -100,43 +160,41 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         //Draw unfilled arc lines
         for(i in 1..linesCount){
-            val left = centerX - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            val top = centerY - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            val right = centerX + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            val bot = centerY + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            var oval = RectF(left,top, right,bot)
+            val left = centerX - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val top = centerY - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val right = centerX + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
 
             for(j in 0..(sectionsCount-1)){
                 drawLinePaint.color = unfilledColors!![j]
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
-                canvas?.drawArc(oval, startDegree,endDegree,false, drawLinePaint)
+                canvas?.drawArc(RectF(left,top, right,bot), startDegree,endDegree,false, drawLinePaint)
             }
         }
 
 
         //Draw filled arc lines
         for(i in 1..linesCount){
-            val left = centerX - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            val top = centerY - (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            val right = centerX + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            val bot = centerY + (((lineStrokeWidth + linesSpace) *i)+midStartSize)
-            var oval = RectF(left,top, right,bot)
+            val left = centerX - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val top = centerY - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val right = centerX + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
 
             for(j in 0..(sectionsCount-1)){
-                if(fills[j]>i)continue
+                if(fills[j]>i-1)continue
                 drawLinePaint.color = filledColors!![j]
 
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
-                canvas?.drawArc(oval, startDegree,endDegree,false, drawLinePaint)
+                canvas?.drawArc(RectF(left,top, right,bot), startDegree,endDegree,false, drawLinePaint)
             }
         }
 
 
 
         //Draw Sections space
-        var radius = ((linesSpace + lineStrokeWidth)*(linesCount))*2
+        var radius = ((linesSpace + linesWidth)*(linesCount))*2
         for(j in 0..(sectionsCount-1)){
             var degree = (j*sectionDegree).toDouble()
 
@@ -150,7 +208,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
         //Draw icons
-        radius = ((linesSpace + lineStrokeWidth)*(linesCount)) + midStartSize + (iconSize * 2)
+        radius = ((linesSpace + linesWidth)*(linesCount)) + midStartExtraOffset + (iconSize * 2)
         for(j in 0..(sectionsCount-1)){
             var degree = (j*(sectionDegree)).toDouble()
             degree += (sectionDegree/2)
