@@ -20,18 +20,55 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
 
-    var linesCount : Int
-    var linesWidth: Float
-    var linesSpace : Float
+    var linesCount : Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    var sectionsCount : Int
-    var sectionsSpace: Float
+    var linesWidth: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    var midStartExtraOffset: Float
+    var linesSpace : Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
 
-    var bgColor : Int
 
-    var iconSize: Float
+
+    var sectionsCount : Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var sectionsSpace: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var midStartExtraOffset: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var bgColor : Int = 0
+        set(value) {
+            field = value
+            invalidate()
+        }
+
+    var iconSize: Float = 0f
+        set(value) {
+            field = value
+            invalidate()
+        }
 
 
 
@@ -45,6 +82,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     private var unfilledColors: MutableList<Int> = mutableListOf()
 
     var iconBmp = BitmapFactory.decodeResource(context.resources,R.drawable.ic_star)
+
+    private var tempRectf : RectF = RectF(0f,0f,0f,0f)
+    private var tmpSrcRect : Rect = Rect(0,0,0,0)
+    private var tmpDstRect : Rect = Rect(0,0,0,0)
 
     init {
         linesCount = 10
@@ -155,7 +196,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         val centerY = (mHeight/2).toFloat()
 
         //Draw Background
-        canvas?.drawRect(Rect(0,0,mWidth,mHeight),bgPaint)
+        canvas?.drawRect(0f,0f, mWidth.toFloat(), mHeight.toFloat(),bgPaint)
 
 
         //Draw unfilled arc lines
@@ -166,10 +207,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
 
             for(j in 0..(sectionsCount-1)){
-                drawLinePaint.color = unfilledColors!![j]
+                drawLinePaint.color = unfilledColors[j]
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
-                canvas?.drawArc(RectF(left,top, right,bot), startDegree,endDegree,false, drawLinePaint)
+
+                tempRectf.set(left,top, right,bot)
+                canvas?.drawArc(tempRectf, startDegree,endDegree,false, drawLinePaint)
             }
         }
 
@@ -184,10 +227,11 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             for(j in 0..(sectionsCount-1)){
                 if(fills[j]>i-1)continue
                 drawLinePaint.color = filledColors!![j]
-
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
-                canvas?.drawArc(RectF(left,top, right,bot), startDegree,endDegree,false, drawLinePaint)
+
+                tempRectf.set(left,top, right,bot)
+                canvas?.drawArc(tempRectf, startDegree,endDegree,false, drawLinePaint)
             }
         }
 
@@ -200,7 +244,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
             var endX = Math.cos(Math.toRadians(degree)).toFloat()
             var endY = Math.sin(Math.toRadians(degree)).toFloat()
-
 
             canvas?.drawLine(centerX,centerY,centerX + (endX*radius),centerY + (endY*radius),clearPaint)
         }
@@ -222,9 +265,9 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             endY += centerY
 
 
-            var src = Rect(0,0,iconBmp!!.width,iconBmp!!.height)
-            var dsdt = Rect((endX- iconSize).toInt(), (endY- iconSize).toInt(), (endX+ iconSize).toInt(), (endY+ iconSize).toInt())
-            canvas?.drawBitmap(iconBmp,src,dsdt,Paint())
+            tmpSrcRect.set(0,0,iconBmp!!.width,iconBmp!!.height)
+            tmpDstRect.set((endX- iconSize).toInt(), (endY- iconSize).toInt(), (endX+ iconSize).toInt(), (endY+ iconSize).toInt())
+            canvas?.drawBitmap(iconBmp,tmpSrcRect,tmpDstRect,bgPaint)
         }
 
     }

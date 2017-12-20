@@ -1,6 +1,7 @@
 package com.neo.arcchartviewdemo
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.widget.SeekBar
 import com.neo.arcchartview.ArcChartView
@@ -18,6 +19,10 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         mySeekBar.max = 10
         mySeekBar.progress = 2
         mySeekBar.setOnSeekBarChangeListener(this)
+
+
+        Handler().postDelayed({myArcChartView.linesCount = 2
+        myArcChartView.linesSpace = 3f},2000)
     }
 
 
