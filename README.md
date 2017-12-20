@@ -1,3 +1,3 @@
 # ArcChartViewDemo
 
-![Alt Text](http://ikhoshabi.com/ss/gif/ArcChartView.gif)
+<img src="http://ikhoshabi.com/ss/gif/ArcChartView.gif" width="250">
