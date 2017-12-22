@@ -5,13 +5,15 @@ and show your statistics or anything you want
 
 or maybe get some ratings from user.
 
+you can download the Demo apk file (you can first adjust your Chart in the app and then implement it in code)
+
+<img src="http://ikhoshabi.com/ss/gif/ArcChartView.gif" width="300">
+
 
 
 ## 1 - Getting Started
 
 By this instructions you can add this library and i will explain how use it.
-
-<img src="http://ikhoshabi.com/ss/gif/ArcChartView.gif" width="300">
 
 
 
@@ -74,7 +76,7 @@ and all of them is arbitary,and can change via xml or java code/
 
 
 
-## 3 - Use in Code
+## 3 - Some Samples
 
 
 ### Sample 1
@@ -84,7 +86,6 @@ and all of them is arbitary,and can change via xml or java code/
         android:id="@+id/arc_chart_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
         app:layout_constraintBottom_toTopOf="@+id/view_separator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
