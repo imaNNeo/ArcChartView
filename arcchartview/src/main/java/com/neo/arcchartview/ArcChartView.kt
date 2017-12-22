@@ -101,7 +101,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
         midStartExtraOffset = DpHandler.dpToPx(mContext,16).toFloat()
 
-        iconSize  = DpHandler.dpToPx(mContext,16).toFloat()
+        iconSize  = DpHandler.dpToPx(mContext,32).toFloat()
 
         bgColor = Color.WHITE
 

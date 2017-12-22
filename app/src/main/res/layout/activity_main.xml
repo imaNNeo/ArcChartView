@@ -20,7 +20,7 @@
         app:acv_lines_space="4dp"
         app:acv_sections_count="8"
         app:acv_sections_space="2dp"
-        app:acv_icon_size="12dp"
+        app:acv_icon_size="32dp"
         app:acv_mid_start_extra_offset="12dp"
         />
 
