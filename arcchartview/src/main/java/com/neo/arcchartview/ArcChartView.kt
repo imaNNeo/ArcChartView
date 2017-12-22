@@ -23,12 +23,14 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     var linesCount : Int = 0
         set(value) {
             field = value
+            initRefreshCountRelateds()
             invalidate()
         }
 
     var linesWidth: Float = 0f
         set(value) {
             field = value
+            refreshLinesWidthRelateds()
             invalidate()
         }
 
@@ -50,6 +52,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     var sectionsSpace: Float = 0f
         set(value) {
             field = value
+            refreshSectionsSpaceRelateds()
             invalidate()
         }
 
@@ -59,13 +62,13 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             invalidate()
         }
 
-    var bgColor : Int = 0
+    var iconSize: Float = 0f
         set(value) {
             field = value
             invalidate()
         }
 
-    var iconSize: Float = 0f
+    var bgColor : Int = 0
         set(value) {
             field = value
             invalidate()
@@ -98,9 +101,9 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
         midStartExtraOffset = DpHandler.dpToPx(mContext,16).toFloat()
 
-        bgColor = Color.WHITE
-
         iconSize  = DpHandler.dpToPx(mContext,16).toFloat()
+
+        bgColor = Color.WHITE
 
         if(attrs!=null){
             val a = mContext.obtainStyledAttributes(attrs,R.styleable.ArcChartView)
@@ -114,9 +117,9 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
             midStartExtraOffset = a.getDimension(R.styleable.ArcChartView_acv_mid_start_extra_offset, midStartExtraOffset)
 
-            bgColor = a.getColor(R.styleable.ArcChartView_acv_bg_color,Color.WHITE)
-
             iconSize = a.getDimension(R.styleable.ArcChartView_acv_icon_size,iconSize)
+
+            bgColor = a.getColor(R.styleable.ArcChartView_acv_bg_color,Color.WHITE)
 
             a.recycle()
         }
@@ -125,8 +128,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
         drawLinePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
             style = Paint.Style.STROKE
-            strokeWidth = linesWidth
         }
+        refreshLinesWidthRelateds()
 
 
         bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -135,21 +138,24 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
         clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            strokeWidth = sectionsSpace
             color = bgColor
             style = Paint.Style.FILL_AND_STROKE
         }
+        refreshSectionsSpaceRelateds()
     }
 
     private fun initRefreshCountRelateds() {
+        if(sectionsCount<1)sectionsCount=1
         sectionDegree = (360/sectionsCount).toFloat()
 
         var value = 0
+        fills.clear()
         for(i in 0 until sectionsCount) {
             if(value>=linesCount)value=0
             fills.add(i, ++value)
         }
 
+        filledColors.clear()
         for(i in 0 until sectionsCount) {
             val color = when(i%8){
                 0 -> color(R.color.unfilled_section_1)
@@ -166,6 +172,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         }
 
 
+        unfilledColors.clear()
         for(i in 0 until sectionsCount) {
             val color = when(i%8){
                 0 -> color(R.color.filled_section_1)
@@ -179,6 +186,16 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
                 else -> Color.BLACK
             }
             unfilledColors.add(i,color)
+        }
+    }
+    private fun refreshLinesWidthRelateds() {
+        drawLinePaint?.let {
+            drawLinePaint.strokeWidth = linesWidth
+        }
+    }
+    private fun refreshSectionsSpaceRelateds() {
+        clearPaint?.let {
+            clearPaint.strokeWidth = sectionsSpace
         }
     }
 
@@ -253,7 +270,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
         //Draw icons
-        radius = ((linesSpace + linesWidth)*(linesCount)) + midStartExtraOffset + (iconSize * 2)
+        radius = ((linesSpace + linesWidth)*(linesCount+1)) + midStartExtraOffset + (iconSize / 2)
         for(j in 0..(sectionsCount-1)){
             var degree = (j*(sectionDegree)).toDouble()
             degree += (sectionDegree/2)
@@ -267,8 +284,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             endY += centerY
 
 
+            val iconSizeHalf = (iconSize/2).toInt()
             tmpSrcRect.set(0,0,iconBmp!!.width,iconBmp!!.height)
-            tmpDstRect.set((endX- iconSize).toInt(), (endY- iconSize).toInt(), (endX+ iconSize).toInt(), (endY+ iconSize).toInt())
+            tmpDstRect.set((endX-iconSizeHalf).toInt(), (endY-iconSizeHalf).toInt(),
+                    (endX+iconSizeHalf).toInt(), (endY+iconSizeHalf).toInt())
             canvas?.drawBitmap(iconBmp,tmpSrcRect,tmpDstRect,bgPaint)
         }
 

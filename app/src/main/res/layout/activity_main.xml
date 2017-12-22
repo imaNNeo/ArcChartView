@@ -11,23 +11,60 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
-        app:layout_constraintBottom_toTopOf="@+id/seek_bar"
+        app:layout_constraintBottom_toTopOf="@+id/view_separator"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:acv_lines_count="10"
         app:acv_lines_width="6dp"
-        app:acv_lines_space="6dp"
-        app:acv_sections_count="20"
-        app:acv_sections_space="1dp"
+        app:acv_lines_space="4dp"
+        app:acv_sections_count="8"
+        app:acv_sections_space="2dp"
         app:acv_icon_size="12dp"
         app:acv_mid_start_extra_offset="12dp"
         />
 
 
+    <View
+        android:id="@+id/view_separator"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="#000"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sp_actions"
+        />
+
+
+    <Spinner
+        android:id="@+id/sp_actions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/seek_bar"
+        app:layout_constraintRight_toLeftOf="@+id/tv_value"
+        />
+
+    <TextView
+        android:id="@+id/tv_value"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:lines="1"
+        app:layout_constraintLeft_toRightOf="@id/sp_actions"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/sp_actions"
+        app:layout_constraintBottom_toBottomOf="@id/sp_actions"
+        android:layout_marginLeft="6dp"
+        android:text="12 dp"
+        android:gravity="center"
+        android:textColor="#000"
+        android:textSize="14sp"
+        />
+
     <SeekBar
         android:id="@+id/seek_bar"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
