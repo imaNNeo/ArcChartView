@@ -104,7 +104,7 @@ myArcChartView.iconSize = DpHandler.dpToPx(ctx,32)
 ## set and get Sections value
 keep in mind that sections position starts with 0
 
-to get a section value use this function : 
+to get a section value use this function
 ```
 value = myArcChartView.getSectionValue(sectionPos)
 ```
@@ -115,6 +115,27 @@ and to set a section value use this function
 ```
 myArcChartView.getSectionValue(sectionPos,sectionValue)
 ```
+
+
+
+
+
+## change filled and unFilled colors
+to set the unFilled color (the section color that drawn behind) use this function
+```
+myArcChartView.setFilldeColor(sectionPos, Color.BLACK)
+```
+
+and to set the filled color (the section color that drawn in top) use this function
+```
+myArcChartView.setUnFilldeColor(sectionPos,Color.LTGRAY)
+```
+
+<img src="./repo_files/images/sample_change_color.png" width="800">
+
+
+
+
 
 
 ## 3 - Some Samples

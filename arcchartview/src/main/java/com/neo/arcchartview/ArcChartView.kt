@@ -158,14 +158,14 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         filledColors.clear()
         for(i in 0 until sectionsCount) {
             val color = when(i%8){
-                0 -> color(R.color.unfilled_section_1)
-                1 -> color(R.color.unfilled_section_2)
-                2 -> color(R.color.unfilled_section_3)
-                3 -> color(R.color.unfilled_section_4)
-                4 -> color(R.color.unfilled_section_5)
-                5 -> color(R.color.unfilled_section_6)
-                6 -> color(R.color.unfilled_section_7)
-                7 -> color(R.color.unfilled_section_8)
+                0 -> color(R.color.filled_section_1)
+                1 -> color(R.color.filled_section_2)
+                2 -> color(R.color.filled_section_3)
+                3 -> color(R.color.filled_section_4)
+                4 -> color(R.color.filled_section_5)
+                5 -> color(R.color.filled_section_6)
+                6 -> color(R.color.filled_section_7)
+                7 -> color(R.color.filled_section_8)
                 else -> Color.BLACK
             }
             filledColors.add(i,color)
@@ -175,14 +175,14 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         unfilledColors.clear()
         for(i in 0 until sectionsCount) {
             val color = when(i%8){
-                0 -> color(R.color.filled_section_1)
-                1 -> color(R.color.filled_section_2)
-                2 -> color(R.color.filled_section_3)
-                3 -> color(R.color.filled_section_4)
-                4 -> color(R.color.filled_section_5)
-                5 -> color(R.color.filled_section_6)
-                6 -> color(R.color.filled_section_7)
-                7 -> color(R.color.filled_section_8)
+                0 -> color(R.color.unfilled_section_1)
+                1 -> color(R.color.unfilled_section_2)
+                2 -> color(R.color.unfilled_section_3)
+                3 -> color(R.color.unfilled_section_4)
+                4 -> color(R.color.unfilled_section_5)
+                5 -> color(R.color.unfilled_section_6)
+                6 -> color(R.color.unfilled_section_7)
+                7 -> color(R.color.unfilled_section_8)
                 else -> Color.BLACK
             }
             unfilledColors.add(i,color)
@@ -226,7 +226,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
 
             for(j in 0..(sectionsCount-1)){
-                drawLinePaint.color = unfilledColors[j]
+                drawLinePaint.color = filledColors[j]
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
 
@@ -245,7 +245,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
             for(j in 0..(sectionsCount-1)){
                 if(sectionsValue[j]>i-1)continue
-                drawLinePaint.color = filledColors!![j]
+                drawLinePaint.color = unfilledColors!![j]
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
 
@@ -298,7 +298,27 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         if(section<0 || section>(sectionsCount-1))return
         if(value<0 || value>linesCount)return
 
-        sectionsValue.set(section,value)
+        sectionsValue[section] = value
+        invalidate()
+    }
+
+    fun getUnFilledColor(section: Int) : Int{
+        if(section<0 || section>(sectionsCount-1))return 0
+        return unfilledColors[section]
+    }
+    fun setUnFilldeColor(section: Int,color : Int){
+        if(section<0 || section>(sectionsCount-1))return
+        unfilledColors[section] = color
+        invalidate()
+    }
+
+    fun getFilledColor(section: Int) : Int{
+        if(section<0 || section>(sectionsCount-1))return 0
+        return filledColors[section]
+    }
+    fun setFilldeColor(section: Int,color : Int){
+        if(section<0 || section>(sectionsCount-1))return
+        filledColors[section] = color
         invalidate()
     }
 }

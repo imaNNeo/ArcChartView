@@ -1,5 +1,6 @@
 package com.neo.arcchartviewdemo
 
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -35,6 +36,14 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
 
         initSpinner()
         refreshSpinnerSections()
+
+
+        myArcChartView.setFilldeColor(0, Color.BLACK)
+        myArcChartView.setUnFilldeColor(0,Color.LTGRAY)
+
+        myArcChartView.setFilldeColor(1, Color.BLACK)
+        myArcChartView.setUnFilldeColor(1,Color.LTGRAY)
+
     }
 
     private fun initSpinner() {
