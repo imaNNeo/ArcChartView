@@ -143,7 +143,7 @@ to set the icons use this function
 myArcChartView.setIcon(sectionPos,bitmap)
 ```
 
-<img src="./repo_files/images/sample_icons.png" width="80">
+<img src="./repo_files/images/sample_icons.png" width="300">
 
 
 
