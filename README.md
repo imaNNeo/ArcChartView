@@ -99,7 +99,30 @@ and all of them is arbitary,and can change via xml or java code/
         app:acv_mid_start_extra_offset="12dp"
         />
 ```
-you will see this output
-
 <img src="http://ikhoshabi.com/ss/ArcChartView/sample1.png" width="300">
+
+
+
+
+### Sample 2
+
+```
+    <com.neo.arcchartview.ArcChartView
+        android:id="@+id/arc_chart_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/view_separator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:acv_lines_count="4"
+        app:acv_lines_width="17dp"
+        app:acv_lines_space="2dp"
+        app:acv_sections_count="3"
+        app:acv_sections_space="6dp"
+        app:acv_icon_size="36dp"
+        app:acv_mid_start_extra_offset="0dp"
+        />
+```
+<img src="./repo_files/images/sample2.png" width="300">
 
