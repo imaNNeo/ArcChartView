@@ -78,13 +78,26 @@ and all of them is arbitary,and can change via xml or java code/
 
 ## View properties dynamic
 ```
-myArcChartView.linesCount = 10  //acv_lines_count
-myArcChartView.linesSpace = DpHandler.dpToPx(ctx,4) //acv_lines_space
-myArcChartView.linesWidth = DpHandler.dpToPx(ctx,6) //acv_lines_width
-myArcChartView.sectionsCount = 8 //acv_sections_count
-myArcChartView.sectionsSpace = DpHandler.dpToPx(ctx,2) //acv_sections_space
-myArcChartView.midStartExtraOffset = DpHandler.dpToPx(ctx,16) //acv_mid_start_extra_offset
-myArcChartView.iconSize = DpHandler.dpToPx(ctx,32) //acv_icon_size
+//acv_lines_count
+myArcChartView.linesCount = 10
+  
+//acv_lines_space
+myArcChartView.linesSpace = DpHandler.dpToPx(ctx,4) 
+
+//acv_lines_width
+myArcChartView.linesWidth = DpHandler.dpToPx(ctx,6)
+ 
+//acv_sections_count
+myArcChartView.sectionsCount = 8 
+
+//acv_sections_space
+myArcChartView.sectionsSpace = DpHandler.dpToPx(ctx,2) 
+
+//acv_mid_start_extra_offset
+myArcChartView.midStartExtraOffset = DpHandler.dpToPx(ctx,16)
+ 
+//acv_icon_size
+myArcChartView.iconSize = DpHandler.dpToPx(ctx,32) 
 ```
 
 
