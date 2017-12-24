@@ -76,8 +76,6 @@ and all of them is arbitary,and can change via xml or java code/
   by this property you can specify the icons size, default value is `32dp`
 
 
-
-
 ### in Code
 ```
 //acv_lines_count
@@ -100,6 +98,19 @@ myArcChartView.midStartExtraOffset = DpHandler.dpToPx(ctx,16)
  
 //acv_icon_size
 myArcChartView.iconSize = DpHandler.dpToPx(ctx,32) 
+```
+
+
+## set and get Sections value
+keep in mind that sections position starts with 0
+to get a section value use this function : 
+```
+value = myArcChartView.getSectionValue(sectionPos)
+```
+
+and to set a section value use this function
+```
+myArcChartView.getSectionValue(sectionPos,sectionValue)
 ```
 
 
