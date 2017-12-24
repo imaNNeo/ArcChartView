@@ -49,6 +49,8 @@ You can simply use this View like other Views in android,
 just add ``ArcChartView`` in your java code or xml.
 
 ## View Properties 
+
+### in XML
 you can use this properties for make everything you want,
 and all of them is arbitary,and can change via xml or java code/
 
@@ -76,7 +78,7 @@ and all of them is arbitary,and can change via xml or java code/
 
 
 
-## View properties dynamic
+### in Code
 ```
 //acv_lines_count
 myArcChartView.linesCount = 10
