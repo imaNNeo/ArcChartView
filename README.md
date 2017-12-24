@@ -131,7 +131,7 @@ and to set the filled color (the section color that drawn in top) use this funct
 myArcChartView.setUnFilldeColor(sectionPos,Color.LTGRAY)
 ```
 
-<img src="./repo_files/images/sample_change_color.png" width="800">
+<img src="./repo_files/images/sample_change_color.png" width="80">
 
 
 
