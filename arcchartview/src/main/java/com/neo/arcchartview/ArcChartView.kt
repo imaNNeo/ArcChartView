@@ -81,7 +81,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     private var mWidth : Int = 0
     private var mHeight : Int = 0
 
-    private var fills : MutableList<Int> = mutableListOf()
+    private var sectionsValue : MutableList<Int> = mutableListOf()
     private var filledColors: MutableList<Int> = mutableListOf()
     private var unfilledColors: MutableList<Int> = mutableListOf()
 
@@ -149,10 +149,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         sectionDegree = (360/sectionsCount).toFloat()
 
         var value = 0
-        fills.clear()
+        sectionsValue.clear()
         for(i in 0 until sectionsCount) {
             if(value>=linesCount)value=0
-            fills.add(i, ++value)
+            sectionsValue.add(i, ++value)
         }
 
         filledColors.clear()
@@ -244,7 +244,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
 
             for(j in 0..(sectionsCount-1)){
-                if(fills[j]>i-1)continue
+                if(sectionsValue[j]>i-1)continue
                 drawLinePaint.color = filledColors!![j]
                 val startDegree = (j*sectionDegree)
                 val endDegree = sectionDegree
@@ -293,8 +293,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
     }
 
-    fun changeFills(section : Int,fillLines : Int){
-        fills.set(section,fillLines)
+    fun getSectionValue(section: Int) : Int = sectionsValue[section]
+    fun setSectionValue(section: Int,value: Int){
+        if(section<0 || section>(sectionsCount-1))return
+        if(value<0 || value>linesCount)return
+
+        sectionsValue.set(section,value)
         invalidate()
     }
 }

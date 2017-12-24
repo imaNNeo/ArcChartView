@@ -10,23 +10,31 @@ import com.neo.arcchartview.DpHandler
 
 class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
     lateinit var myArcChartView : ArcChartView
-    lateinit var mySeekBar : SeekBar
+    lateinit var sbAttrsValue: SeekBar
     lateinit var spActions : Spinner
     lateinit var tvValue : TextView
 
+    lateinit var spSection : Spinner
+    lateinit var sbSectionsValue: SeekBar
+
 
     var actionsList : MutableList<String> = mutableListOf()
+    var sectionsList : MutableList<String> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         myArcChartView = findViewById(R.id.arc_chart_view)
-        mySeekBar = findViewById(R.id.seek_bar)
+        sbAttrsValue = findViewById(R.id.sb_attrsValue)
         spActions = findViewById(R.id.sp_actions)
         tvValue = findViewById(R.id.tv_value)
 
+        spSection = findViewById(R.id.sp_sections)
+        sbSectionsValue = findViewById(R.id.sb_sectionsValue)
+
         initSpinner()
+        refreshSpinnerSections()
     }
 
     private fun initSpinner() {
@@ -59,47 +67,83 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
     }
 
     private fun refreshSelected(position : Int) {
-        mySeekBar.setOnSeekBarChangeListener(null)
+        sbAttrsValue.setOnSeekBarChangeListener(null)
         when(actionsList[position]){
             "acv_lines_count" -> {
-                mySeekBar.max = 20
-                mySeekBar.progress = myArcChartView.linesCount
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 20
+                sbAttrsValue.progress = myArcChartView.linesCount
+                refreshValueText(sbAttrsValue.progress)
             }
             "acv_lines_space" -> {
-                mySeekBar.max = 20
-                mySeekBar.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.linesSpace.toInt())
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 20
+                sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.linesSpace.toInt())
+                refreshValueText(sbAttrsValue.progress)
             }
             "acv_lines_width" -> {
-                mySeekBar.max = 80
-                mySeekBar.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.linesWidth.toInt())
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 80
+                sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.linesWidth.toInt())
+                refreshValueText(sbAttrsValue.progress)
             }
             "acv_sections_count" -> {
-                mySeekBar.max = 25
-                mySeekBar.progress = myArcChartView.sectionsCount
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 25
+                sbAttrsValue.progress = myArcChartView.sectionsCount
+                refreshValueText(sbAttrsValue.progress)
             }
             "acv_sections_space" -> {
-                mySeekBar.max = 40
-                mySeekBar.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.sectionsSpace.toInt())
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 40
+                sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.sectionsSpace.toInt())
+                refreshValueText(sbAttrsValue.progress)
             }
             "acv_mid_start_extra_offset" -> {
-                mySeekBar.max = 100
-                mySeekBar.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.midStartExtraOffset.toInt())
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 100
+                sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.midStartExtraOffset.toInt())
+                refreshValueText(sbAttrsValue.progress)
             }
             "acv_icon_size" -> {
-                mySeekBar.max = 64
-                mySeekBar.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.iconSize.toInt())
-                refreshValueText(mySeekBar.progress)
+                sbAttrsValue.max = 64
+                sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.iconSize.toInt())
+                refreshValueText(sbAttrsValue.progress)
             }
         }
-        mySeekBar.setOnSeekBarChangeListener(this)
+        sbAttrsValue.setOnSeekBarChangeListener(this)
     }
 
+    private fun refreshSpinnerSections() {
+        sectionsList.clear()
+        for(i in 1..myArcChartView.sectionsCount)
+            sectionsList.add("Section $i")
+
+        val spinnerArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
+                sectionsList)
+        spinnerArrayAdapter.setDropDownViewResource(android.R.layout
+                .simple_spinner_dropdown_item)
+        spSection.adapter = spinnerArrayAdapter
+
+
+        spSection.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                refreshSeekbarValueSections()
+            }
+
+        }
+
+        spSection.setSelection(0)
+    }
+
+    private fun refreshSeekbarValueSections() {
+        sbSectionsValue.max = myArcChartView.linesCount
+        sbSectionsValue.progress = myArcChartView.getSectionValue(spSection.selectedItemPosition)
+        sbSectionsValue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                myArcChartView.setSectionValue(spSection.selectedItemPosition,progress)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+    }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         refreshValueText(progress)
@@ -142,6 +186,7 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         when(actionsList[spActions.selectedItemPosition]){
             "acv_lines_count" -> {
                 myArcChartView.linesCount = progress
+                refreshSeekbarValueSections()
             }
             "acv_lines_space" -> {
                 myArcChartView.linesSpace = DpHandler.dpToPx(this@MainActivity,progress).toFloat()
@@ -151,6 +196,7 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
             }
             "acv_sections_count" -> {
                 myArcChartView.sectionsCount = progress
+                refreshSpinnerSections()
             }
             "acv_sections_space" -> {
                 myArcChartView.sectionsSpace = DpHandler.dpToPx(this@MainActivity,progress).toFloat()
