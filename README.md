@@ -99,7 +99,7 @@ and all of them is arbitary,and can change via xml or java code/
         app:acv_mid_start_extra_offset="12dp"
         />
 ```
-<img src="http://ikhoshabi.com/ss/ArcChartView/sample1.png" width="300">
+<img src="./repo_files/images/sample1.png" width="300">
 
 
 
@@ -125,4 +125,29 @@ and all of them is arbitary,and can change via xml or java code/
         />
 ```
 <img src="./repo_files/images/sample2.png" width="300">
+
+
+
+
+### Sample 3
+
+```
+    <com.neo.arcchartview.ArcChartView
+        android:id="@+id/arc_chart_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/view_separator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:acv_lines_count="6"
+        app:acv_lines_width="14dp"
+        app:acv_lines_space="0dp"
+        app:acv_sections_count="18"
+        app:acv_sections_space="0dp"
+        app:acv_icon_size="24dp"
+        app:acv_mid_start_extra_offset="8dp"
+        />
+```
+<img src="./repo_files/images/sample3.png" width="300">
 
