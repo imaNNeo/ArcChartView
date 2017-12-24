@@ -7,7 +7,7 @@ or maybe get some ratings from user.
 
 you can download the [Demo apk file](./repo_files/ArcChartViewDemo.apk) (you can first adjust your Chart in the app and then implement it in code)
 
-<img src="http://ikhoshabi.com/ss/gif/ArcChartView2.gif" width="300">
+<img src="./repo_files/gimages/demo.gif" width="300">
 
 
 
