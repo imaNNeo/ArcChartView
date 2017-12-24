@@ -1,6 +1,6 @@
 package com.neo.arcchartviewdemo
 
-import android.graphics.Color
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -38,12 +38,14 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         refreshSpinnerSections()
 
 
-        myArcChartView.setFilldeColor(0, Color.BLACK)
-        myArcChartView.setUnFilldeColor(0,Color.LTGRAY)
-
-        myArcChartView.setFilldeColor(1, Color.BLACK)
-        myArcChartView.setUnFilldeColor(1,Color.LTGRAY)
-
+        myArcChartView.setIcon(0,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic1))
+        myArcChartView.setIcon(1,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic2))
+        myArcChartView.setIcon(2,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic3))
+        myArcChartView.setIcon(3,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic4))
+        myArcChartView.setIcon(4,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic5))
+        myArcChartView.setIcon(5,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic6))
+        myArcChartView.setIcon(6,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic7))
+        myArcChartView.setIcon(7,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic8))
     }
 
     private fun initSpinner() {

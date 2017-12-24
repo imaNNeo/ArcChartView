@@ -81,11 +81,11 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     private var mWidth : Int = 0
     private var mHeight : Int = 0
 
+    private var sectionIcons : MutableList<Bitmap?> = mutableListOf()
     private var sectionsValue : MutableList<Int> = mutableListOf()
     private var filledColors: MutableList<Int> = mutableListOf()
     private var unfilledColors: MutableList<Int> = mutableListOf()
 
-    var iconBmp = BitmapFactory.decodeResource(context.resources,R.drawable.ic_star)
 
     private var tempRectf : RectF = RectF(0f,0f,0f,0f)
     private var tmpSrcRect : Rect = Rect(0,0,0,0)
@@ -187,6 +187,13 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             }
             unfilledColors.add(i,color)
         }
+
+
+
+        sectionIcons.clear()
+        for(i in 0 until sectionsCount) {
+            sectionIcons.add(i,BitmapFactory.decodeResource(context.resources,R.drawable.ic_star))
+        }
     }
     private fun refreshLinesWidthRelateds() {
         drawLinePaint?.let {
@@ -272,6 +279,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         //Draw icons
         radius = ((linesSpace + linesWidth)*(linesCount+1)) + midStartExtraOffset + (iconSize / 2)
         for(j in 0..(sectionsCount-1)){
+            val bmp = sectionIcons[j] ?: continue
+
             var degree = (j*(sectionDegree)).toDouble()
             degree += (sectionDegree/2)
 
@@ -285,10 +294,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
             val iconSizeHalf = (iconSize/2).toInt()
-            tmpSrcRect.set(0,0,iconBmp!!.width,iconBmp!!.height)
+            tmpSrcRect.set(0,0, bmp.width, bmp.height)
             tmpDstRect.set((endX-iconSizeHalf).toInt(), (endY-iconSizeHalf).toInt(),
                     (endX+iconSizeHalf).toInt(), (endY+iconSizeHalf).toInt())
-            canvas?.drawBitmap(iconBmp,tmpSrcRect,tmpDstRect,bgPaint)
+            canvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
         }
 
     }
@@ -319,6 +328,16 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     fun setFilldeColor(section: Int,color : Int){
         if(section<0 || section>(sectionsCount-1))return
         filledColors[section] = color
+        invalidate()
+    }
+
+    fun getIcon(section: Int) : Bitmap?{
+        if(section<0 || section>(sectionsCount-1))return null
+        return sectionIcons[section]
+    }
+    fun setIcon(section: Int, icn: Bitmap?){
+        if(section<0 || section>(sectionsCount-1))return
+        sectionIcons[section] = icn
         invalidate()
     }
 }
