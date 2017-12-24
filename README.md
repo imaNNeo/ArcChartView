@@ -145,7 +145,7 @@ and all of them is arbitary,and can change via xml or java code/
         app:acv_lines_space="0dp"
         app:acv_sections_count="18"
         app:acv_sections_space="0dp"
-        app:acv_icon_size="24dp"
+        app:acv_icon_size="14dp"
         app:acv_mid_start_extra_offset="8dp"
         />
 ```
