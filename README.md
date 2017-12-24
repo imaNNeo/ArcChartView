@@ -50,7 +50,7 @@ just add ``ArcChartView`` in your java code or xml.
 
 ## View Properties 
 
-### in XML
+### * in XML
 you can use this properties for make everything you want,
 and all of them is arbitary,and can change via xml or java code/
 
@@ -76,7 +76,7 @@ and all of them is arbitary,and can change via xml or java code/
   by this property you can specify the icons size, default value is `32dp`
 
 
-### in Code
+### * in Code
 ```
 //acv_lines_count
 myArcChartView.linesCount = 10
@@ -103,10 +103,13 @@ myArcChartView.iconSize = DpHandler.dpToPx(ctx,32)
 
 ## set and get Sections value
 keep in mind that sections position starts with 0
+
 to get a section value use this function : 
 ```
 value = myArcChartView.getSectionValue(sectionPos)
 ```
+
+
 
 and to set a section value use this function
 ```
