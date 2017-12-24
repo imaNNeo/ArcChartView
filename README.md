@@ -48,7 +48,7 @@ And then sync your gradle and take a tea.
 You can simply use this View like other Views in android,
 just add ``ArcChartView`` in your java code or xml.
 
-## View Properties
+## View Properties 
 you can use this properties for make everything you want,
 and all of them is arbitary,and can change via xml or java code/
 
@@ -74,6 +74,18 @@ and all of them is arbitary,and can change via xml or java code/
   by this property you can specify the icons size, default value is `32dp`
 
 
+
+
+## View properties dynamic
+```
+myArcChartView.linesCount = 10  //acv_lines_count
+myArcChartView.linesSpace = DpHandler.dpToPx(ctx,4) //acv_lines_space
+myArcChartView.linesWidth = DpHandler.dpToPx(ctx,6) //acv_lines_width
+myArcChartView.sectionsCount = 8 //acv_sections_count
+myArcChartView.sectionsSpace = DpHandler.dpToPx(ctx,2) //acv_sections_space
+myArcChartView.midStartExtraOffset = DpHandler.dpToPx(ctx,16) //acv_mid_start_extra_offset
+myArcChartView.iconSize = DpHandler.dpToPx(ctx,32) //acv_icon_size
+```
 
 
 ## 3 - Some Samples
