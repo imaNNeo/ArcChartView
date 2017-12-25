@@ -224,3 +224,16 @@ myArcChartView.setIcon(sectionPos,bitmap)
 ```
 <img src="./repo_files/images/sample3.png" width="300">
 
+
+
+
+
+
+
+
+
+
+
+
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ArcChartView-green.svg?style=flat )]( https://android-arsenal.com/details/1/6599 )
+
