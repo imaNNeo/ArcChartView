@@ -24,20 +24,20 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         set(value) {
             field = value
             initRefreshCountRelateds()
-            invalidate()
+            requestLayout()
         }
 
     var linesWidth: Float = 0f
         set(value) {
             field = value
             refreshLinesWidthRelateds()
-            invalidate()
+            requestLayout()
         }
 
     var linesSpace : Float = 0f
         set(value) {
             field = value
-            invalidate()
+            requestLayout()
         }
 
 
@@ -59,13 +59,13 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     var midStartExtraOffset: Float = 0f
         set(value) {
             field = value
-            invalidate()
+            requestLayout()
         }
 
     var iconSize: Float = 0f
         set(value) {
             field = value
-            invalidate()
+            requestLayout()
         }
 
     var bgColor : Int = 0
@@ -211,9 +211,38 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
-        mWidth = measuredWidth
-        mHeight = measuredHeight
+
+        val widthMeasureMode = MeasureSpec.getMode(widthMeasureSpec)
+        val widthMeasureSize = MeasureSpec.getSize(widthMeasureSpec)
+
+        val heightMeasureMode = MeasureSpec.getMode(heightMeasureSpec)
+        val heightMeasureSize = MeasureSpec.getSize(heightMeasureSpec)
+
+
+
+        mWidth = when(widthMeasureMode){
+            MeasureSpec.EXACTLY->widthMeasureSize
+            MeasureSpec.AT_MOST->Math.min(widthMeasureSize,calculateDesireWidth())
+            MeasureSpec.UNSPECIFIED->calculateDesireWidth()
+            else -> calculateDesireWidth()
+        }
+
+
+        mHeight = when(heightMeasureMode){
+            MeasureSpec.EXACTLY->heightMeasureSize
+            MeasureSpec.AT_MOST->Math.min(heightMeasureSize,calculateDesireHeight())
+            MeasureSpec.UNSPECIFIED->calculateDesireHeight()
+            else -> calculateDesireHeight()
+        }
+
+
+
+        setMeasuredDimension(mWidth,mHeight)
     }
+
+    private fun calculateDesireWidth() = ((((linesCount+1)*(linesWidth+linesSpace))*2)+(midStartExtraOffset)+(iconSize*2)).toInt()
+    private fun calculateDesireHeight() = ((((linesCount+1)*(linesWidth+linesSpace))*2)+(midStartExtraOffset)+(iconSize*2)).toInt()
+
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
@@ -240,6 +269,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
                 tempRectf.set(left,top, right,bot)
                 canvas?.drawArc(tempRectf, startDegree,endDegree,false, drawLinePaint)
             }
+
         }
 
 
