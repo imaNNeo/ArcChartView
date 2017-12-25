@@ -1,6 +1,6 @@
-# ArcChartViewDemo
-
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ArcChartView-green.svg?style=flat )]( https://android-arsenal.com/details/1/6599 )
+
+# ArcChartViewDemo
 
 You can use this library to draw Arc charts
 
