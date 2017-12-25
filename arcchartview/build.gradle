@@ -1,6 +1,12 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
+ext {
+    PUBLISH_GROUP_ID = 'com.neo.arcchartview'
+    PUBLISH_ARTIFACT_ID = 'arcchartview'
+    PUBLISH_VERSION = '0.5.0'
+}
+
 android {
     compileSdkVersion 26
 
@@ -37,3 +43,7 @@ dependencies {
 repositories {
     mavenCentral()
 }
+
+
+// or use the remote copy to keep update with latest changes
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
