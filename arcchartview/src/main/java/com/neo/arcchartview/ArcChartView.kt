@@ -1,6 +1,4 @@
 package com.neo.arcchartview
-
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
@@ -11,7 +9,7 @@ import android.view.View
  * Created by iman.
  * iman.neofight@gmail.com
  */
-class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
+class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         View(mContext,attrs, defStyleAttr) {
 
 
@@ -277,7 +275,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     }
 
 
-    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
@@ -298,10 +295,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             for(j in 0..(sectionsCount-1)){
                 drawLinePaint.color = filledColors[j]
                 val startDegree = (j*sectionDegree)
-                val endDegree = sectionDegree
+                val sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
-                canvas?.drawArc(tempRectf, startDegree,endDegree,false, drawLinePaint)
+                canvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
             }
 
         }
@@ -318,10 +315,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
                 if(sectionsValue[j]>i-1)continue
                 drawLinePaint.color = unfilledColors!![j]
                 val startDegree = (j*sectionDegree)
-                val endDegree = sectionDegree
+                val sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
-                canvas?.drawArc(tempRectf, startDegree,endDegree,false, drawLinePaint)
+                canvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
             }
         }
 
