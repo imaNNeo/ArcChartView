@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         actionsList.add("acv_sections_space")
         actionsList.add("acv_mid_start_extra_offset")
         actionsList.add("acv_icon_size")
+        actionsList.add("acv_icon_margin")
 
         val spinnerArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
                 actionsList)
@@ -120,6 +121,11 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
             "acv_icon_size" -> {
                 sbAttrsValue.max = 64
                 sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.iconSize.toInt())
+                refreshValueText(sbAttrsValue.progress)
+            }
+            "acv_icon_margin" -> {
+                sbAttrsValue.max = 64
+                sbAttrsValue.progress = DpHandler.pxToDp(this@MainActivity, myArcChartView.iconMargin.toInt())
                 refreshValueText(sbAttrsValue.progress)
             }
         }
@@ -197,6 +203,9 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
             "acv_icon_size" -> {
                 tvValue.text = "$progress dp"
             }
+            "acv_icon_margin" -> {
+                tvValue.text = "$progress dp"
+            }
         }
     }
 
@@ -224,6 +233,9 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
             }
             "acv_icon_size" -> {
                 myArcChartView.iconSize = DpHandler.dpToPx(this@MainActivity,progress).toFloat()
+            }
+            "acv_icon_margin" -> {
+                myArcChartView.iconMargin = DpHandler.dpToPx(this@MainActivity,progress).toFloat()
             }
         }
     }

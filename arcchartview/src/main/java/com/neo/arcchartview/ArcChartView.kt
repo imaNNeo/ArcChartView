@@ -69,6 +69,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             requestLayout()
         }
 
+    var iconMargin: Float = 0f
+        set(value) {
+            field = value
+            requestLayout()
+        }
+
     var bgColor : Int = 0
         set(value) {
             field = value
@@ -103,6 +109,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         midStartExtraOffset = DpHandler.dpToPx(mContext,16).toFloat()
 
         iconSize  = DpHandler.dpToPx(mContext,32).toFloat()
+        iconMargin = DpHandler.dpToPx(mContext,6).toFloat()
 
         bgColor = Color.WHITE
 
@@ -119,6 +126,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
             midStartExtraOffset = a.getDimension(R.styleable.ArcChartView_acv_mid_start_extra_offset, midStartExtraOffset)
 
             iconSize = a.getDimension(R.styleable.ArcChartView_acv_icon_size,iconSize)
+            iconMargin = a.getDimension(R.styleable.ArcChartView_acv_icon_margin,iconMargin)
 
             bgColor = a.getColor(R.styleable.ArcChartView_acv_bg_color,Color.WHITE)
 
@@ -242,8 +250,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     }
 
 
-    private fun calculateDesireWidth() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + (iconSize*2)).toInt()
-    private fun calculateDesireHeight() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + (iconSize*2)).toInt()
+    private fun calculateDesireWidth() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + ((iconMargin*2) + iconSize*2)).toInt()
+    private fun calculateDesireHeight() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + ((iconMargin*2) + iconSize*2)).toInt()
 
 
     @SuppressLint("DrawAllocation")
@@ -310,7 +318,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
         //Draw icons
-        radius = (((linesSpace + linesWidth)*(linesCount) + (linesWidth))) + (midStartExtraOffset/2) + (iconSize / 2)
+        radius = (((linesSpace + linesWidth)*(linesCount) + (linesWidth))) + (midStartExtraOffset/2) + iconMargin + (iconSize / 2)
         for(j in 0..(sectionsCount-1)){
             val bmp = sectionIcons[j] ?: continue
 
