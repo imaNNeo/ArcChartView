@@ -250,8 +250,31 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
     }
 
 
-    private fun calculateDesireWidth() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + ((iconMargin*2) + iconSize*2)).toInt()
-    private fun calculateDesireHeight() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + ((iconMargin*2) + iconSize*2)).toInt()
+    private fun calculateDesireWidth() : Int {
+        //Whole Chart Space (linesWidth + linesSpace + midExtraSize)
+        val chartSpace = ((((linesWidth + linesSpace) * linesCount) * 2) + (linesWidth * 2)) + midStartExtraOffset
+
+        //Icons Space (width + margin)
+        val iconsSpace = ((iconMargin * 2) + iconSize * 2)
+
+        //Padding Space (left + right)
+        val padding = paddingLeft + paddingRight
+
+        return (chartSpace + iconsSpace + padding).toInt()
+    }
+
+    private fun calculateDesireHeight() : Int {
+        //Whole Chart Space (linesWidth + linesSpace + midExtraSize)
+        val chartSpace = ((((linesWidth + linesSpace) * linesCount) * 2) + (linesWidth * 2)) + midStartExtraOffset
+
+        //Icons Space (width + margin)
+        val iconsSpace = ((iconMargin * 2) + iconSize * 2)
+
+        //Padding Space (top + bottom)
+        val padding = paddingTop + paddingBottom
+
+        return (chartSpace + iconsSpace + padding).toInt()
+    }
 
 
     @SuppressLint("DrawAllocation")
