@@ -1,5 +1,6 @@
 package com.neo.arcchartview
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
@@ -240,10 +241,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
         setMeasuredDimension(mWidth,mHeight)
     }
 
-    private fun calculateDesireWidth() = ((((linesCount+1)*(linesWidth+linesSpace))*2)+(midStartExtraOffset)+(iconSize*2)).toInt()
-    private fun calculateDesireHeight() = ((((linesCount+1)*(linesWidth+linesSpace))*2)+(midStartExtraOffset)+(iconSize*2)).toInt()
+
+    private fun calculateDesireWidth() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + (iconSize*2)).toInt()
+    private fun calculateDesireHeight() = (((((linesWidth + linesSpace) *linesCount)*2)+(linesWidth*2)) + (midStartExtraOffset) + (iconSize*2)).toInt()
 
 
+    @SuppressLint("DrawAllocation")
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
@@ -256,10 +259,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
         //Draw unfilled arc lines
         for(i in 1..linesCount){
-            val left = centerX - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
-            val top = centerY - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
-            val right = centerX + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
-            val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val left = centerX - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val top = centerY - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val right = centerX + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val bot = centerY + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
                 drawLinePaint.color = filledColors[j]
@@ -275,10 +278,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
         //Draw filled arc lines
         for(i in 1..linesCount){
-            val left = centerX - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
-            val top = centerY - (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
-            val right = centerX + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
-            val bot = centerY + (((linesWidth + linesSpace) *i)+ midStartExtraOffset)
+            val left = centerX - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val top = centerY - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val right = centerX + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val bot = centerY + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
                 if(sectionsValue[j]>i-1)continue
@@ -307,7 +310,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
 
 
         //Draw icons
-        radius = ((linesSpace + linesWidth)*(linesCount+1)) + midStartExtraOffset + (iconSize / 2)
+        radius = (((linesSpace + linesWidth)*(linesCount) + (linesWidth))) + (midStartExtraOffset/2) + (iconSize / 2)
         for(j in 0..(sectionsCount-1)){
             val bmp = sectionIcons[j] ?: continue
 
@@ -329,6 +332,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, val attrs: Attr
                     (endX+iconSizeHalf).toInt(), (endY+iconSizeHalf).toInt())
             canvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
         }
+
 
     }
 
