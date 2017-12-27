@@ -83,8 +83,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
     private var sectionDegree : Float = 0.0f
-    private var mWidth : Int = 0
-    private var mHeight : Int = 0
 
     private var sectionIcons : MutableList<Bitmap?> = mutableListOf()
     private var sectionsValue : MutableList<Int> = mutableListOf()
@@ -227,7 +225,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
 
-        mWidth = when(widthMeasureMode){
+        val mWidth = when(widthMeasureMode){
             MeasureSpec.EXACTLY->widthMeasureSize
             MeasureSpec.AT_MOST->Math.min(widthMeasureSize,calculateDesireWidth())
             MeasureSpec.UNSPECIFIED->calculateDesireWidth()
@@ -235,7 +233,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         }
 
 
-        mHeight = when(heightMeasureMode){
+        val mHeight = when(heightMeasureMode){
             MeasureSpec.EXACTLY->heightMeasureSize
             MeasureSpec.AT_MOST->Math.min(heightMeasureSize,calculateDesireHeight())
             MeasureSpec.UNSPECIFIED->calculateDesireHeight()
@@ -278,11 +276,11 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        val centerX = (mWidth/2).toFloat()
-        val centerY = (mHeight/2).toFloat()
+        val centerX = (width/2).toFloat()
+        val centerY = (height/2).toFloat()
 
         //Draw Background
-        canvas?.drawRect(0f,0f, mWidth.toFloat(), mHeight.toFloat(),bgPaint)
+        canvas?.drawRect(0f,0f, width.toFloat(), height.toFloat(),bgPaint)
 
 
         //Draw unfilled arc lines
