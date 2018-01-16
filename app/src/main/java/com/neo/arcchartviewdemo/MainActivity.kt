@@ -14,10 +14,6 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
     lateinit var spActions : Spinner
     lateinit var tvValue : TextView
 
-    lateinit var spSection : Spinner
-    lateinit var sbSectionsValue: SeekBar
-
-
     var actionsList : MutableList<String> = mutableListOf()
     var sectionsList : MutableList<String> = mutableListOf()
 
@@ -30,12 +26,7 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         spActions = findViewById(R.id.sp_actions)
         tvValue = findViewById(R.id.tv_value)
 
-        spSection = findViewById(R.id.sp_sections)
-        sbSectionsValue = findViewById(R.id.sb_sectionsValue)
-
         initSpinner()
-        refreshSpinnerSections()
-
 
         //Change filled/unFilled colors
 //        myArcChartView.setFilldeColor(0, Color.BLACK)
@@ -132,43 +123,6 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         sbAttrsValue.setOnSeekBarChangeListener(this)
     }
 
-    private fun refreshSpinnerSections() {
-        sectionsList.clear()
-        for(i in 1..myArcChartView.sectionsCount)
-            sectionsList.add("Section $i")
-
-        val spinnerArrayAdapter = ArrayAdapter<String>(this, android.R.layout.simple_spinner_item,
-                sectionsList)
-        spinnerArrayAdapter.setDropDownViewResource(android.R.layout
-                .simple_spinner_dropdown_item)
-        spSection.adapter = spinnerArrayAdapter
-
-
-        spSection.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                refreshSeekbarValueSections()
-            }
-
-        }
-
-        spSection.setSelection(0)
-    }
-
-    private fun refreshSeekbarValueSections() {
-        sbSectionsValue.max = myArcChartView.linesCount
-        sbSectionsValue.progress = myArcChartView.getSectionValue(spSection.selectedItemPosition)
-        sbSectionsValue.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                myArcChartView.setSectionValue(spSection.selectedItemPosition,progress)
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-    }
-
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         refreshValueText(progress)
         refreshProgress(progress)
@@ -213,7 +167,6 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         when(actionsList[spActions.selectedItemPosition]){
             "acv_lines_count" -> {
                 myArcChartView.linesCount = progress
-                refreshSeekbarValueSections()
             }
             "acv_lines_space" -> {
                 myArcChartView.linesSpace = DpHandler.dpToPx(this@MainActivity,progress).toFloat()
@@ -223,7 +176,6 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
             }
             "acv_sections_count" -> {
                 myArcChartView.sectionsCount = progress
-                refreshSpinnerSections()
             }
             "acv_sections_space" -> {
                 myArcChartView.sectionsSpace = DpHandler.dpToPx(this@MainActivity,progress).toFloat()
