@@ -15,6 +15,9 @@
         <attr name="acv_icon_margin" format="dimension"/>
 
         <attr name="acv_bg_color" format="color"/>
+
+        <attr name="acv_counter" format="boolean"/>
+        <attr name="acv_counter_max" format="integer"/>
     </declare-styleable>
     
 </resources>
