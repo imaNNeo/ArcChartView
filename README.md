@@ -152,7 +152,12 @@ myArcChartView.setIcon(sectionPos,bitmap)
 you can handle some actions (only sectionsIconClick for now)
 just set a listener and do your logic
 ```
-myArcChartView.setFilldeColor(sectionPos, Color.BLACK)
+myArcChartView.listener = object : ArcChartView.AcvListener {
+            override fun onSectionsIconClicked(sectionPos: Int) {
+                //Handle Your Logic Here
+                Toast.makeText(applicationContext, sectionPos.toString(),Toast.LENGTH_SHORT).show()
+            }
+        }
 ```
 
 
