@@ -150,7 +150,7 @@ myArcChartView.setIcon(sectionPos,bitmap)
 
 ## View listener (ArcListener)
 you can handle some actions (only sectionsIconClick for now)
-just set a listener and do your logic
+just set a listener and make your logic
 ```
 myArcChartView.listener = object : ArcChartView.AcvListener {
             override fun onSectionsIconClicked(sectionPos: Int) {
