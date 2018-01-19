@@ -55,8 +55,8 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
 //        myArcChartView.setIcon(7,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic8))
 
         //IconsClickListener
-        myArcChartView.mListener = object : ArcChartView.AcvListener {
-            override fun onSectionIconClicked(sectionPos: Int) {
+        myArcChartView.listener = object : ArcChartView.AcvListener {
+            override fun onSectionsIconClicked(sectionPos: Int) {
                 Toast.makeText(applicationContext, sectionPos.toString(),Toast.LENGTH_SHORT).show()
             }
         }

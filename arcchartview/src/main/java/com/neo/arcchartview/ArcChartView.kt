@@ -80,7 +80,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             invalidate()
         }
 
-    var mListener : AcvListener? = null
+    var listener: AcvListener? = null
 
 
 
@@ -445,13 +445,13 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
             if(r.contains(event.x.toInt(), event.y.toInt())){
                 //icon in Section j clicked
-                mListener?.onSectionIconClicked(j)
+                listener?.onSectionsIconClicked(j)
             }
 
         }
     }
 
     interface AcvListener {
-        fun onSectionIconClicked(sectionPos : Int){}
+        fun onSectionsIconClicked(sectionPos : Int){}
     }
 }

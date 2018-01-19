@@ -138,8 +138,6 @@ myArcChartView.setUnFilldeColor(sectionPos,Color.LTGRAY)
 
 
 
-
-
 ## change section icons
 to set the icons use this function
 ```
@@ -149,6 +147,13 @@ myArcChartView.setIcon(sectionPos,bitmap)
 <img src="./repo_files/images/sample_icons.png" width="300">
 
 
+
+## View listener (ArcListener)
+you can handle some actions (only sectionsIconClick for now)
+just set a listener and do your logic
+```
+myArcChartView.setFilldeColor(sectionPos, Color.BLACK)
+```
 
 
 
