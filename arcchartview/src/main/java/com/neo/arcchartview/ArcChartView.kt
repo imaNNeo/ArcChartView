@@ -3,6 +3,7 @@ import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 
 /**
@@ -78,6 +79,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             field = value
             invalidate()
         }
+
+    var mListener : AcvListener? = null
 
 
 
@@ -336,10 +339,25 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
         //Draw icons
-        radius = (((linesSpace + linesWidth)*(linesCount) + (linesWidth))) + (midStartExtraOffset/2) + iconMargin + (iconSize / 2)
-        for(j in 0..(sectionsCount-1)){
-            val bmp = sectionIcons[j] ?: continue
+        val iconsRect = getDrawingIconsRect()
 
+        for(j in 0..(iconsRect.size-1)){
+            val bmp = sectionIcons[j] ?: continue
+            tmpSrcRect.set(0,0, bmp.width, bmp.height)
+            tmpDstRect.set(iconsRect[j])
+            canvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
+        }
+
+    }
+
+    private fun getDrawingIconsRect() : Array<Rect?>{
+        val rects = arrayOfNulls<Rect?>(sectionsCount)
+
+        val centerX = width/2
+        val centerY = height/2
+
+        val radius = (((linesSpace + linesWidth)*(linesCount) + (linesWidth))) + (midStartExtraOffset/2) + iconMargin + (iconSize / 2)
+        for(j in 0..(sectionsCount-1)){
             var degree = (j*(sectionDegree)).toDouble()
             degree += (sectionDegree/2)
 
@@ -352,14 +370,13 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             endY += centerY
 
 
+
             val iconSizeHalf = (iconSize/2).toInt()
-            tmpSrcRect.set(0,0, bmp.width, bmp.height)
-            tmpDstRect.set((endX-iconSizeHalf).toInt(), (endY-iconSizeHalf).toInt(),
+            rects[j] = Rect((endX-iconSizeHalf).toInt(), (endY-iconSizeHalf).toInt(),
                     (endX+iconSizeHalf).toInt(), (endY+iconSizeHalf).toInt())
-            canvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
         }
 
-
+        return  rects
     }
 
     fun getSectionValue(section: Int) : Int = sectionsValue[section]
@@ -399,5 +416,42 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         if(section<0 || section>(sectionsCount-1))return
         sectionIcons[section] = icn
         invalidate()
+    }
+
+
+    var downX = 0f
+    var downY = 0f
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        when(event?.action){
+            MotionEvent.ACTION_DOWN -> {
+                downX = event.x
+                downY = event.y
+            }
+            MotionEvent.ACTION_UP -> {
+                if(downX==event.x && downY==event.y){
+                    //Click happened
+                    handleOnClick(event)
+                }
+            }
+        }
+        return true
+    }
+
+    private fun handleOnClick(event: MotionEvent) {
+        val iconsRect = getDrawingIconsRect()
+
+        for(j in 0..(iconsRect.size-1)){
+            val r = iconsRect[j] ?: break
+
+            if(r.contains(event.x.toInt(), event.y.toInt())){
+                //icon in Section j clicked
+                mListener?.onSectionIconClicked(j)
+            }
+
+        }
+    }
+
+    interface AcvListener {
+        fun onSectionIconClicked(sectionPos : Int){}
     }
 }

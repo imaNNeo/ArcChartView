@@ -53,6 +53,13 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
 //        myArcChartView.setIcon(5,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic6))
 //        myArcChartView.setIcon(6,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic7))
 //        myArcChartView.setIcon(7,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic8))
+
+        //IconsClickListener
+        myArcChartView.mListener = object : ArcChartView.AcvListener {
+            override fun onSectionIconClicked(sectionPos: Int) {
+                Toast.makeText(applicationContext, sectionPos.toString(),Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initSpinner() {
