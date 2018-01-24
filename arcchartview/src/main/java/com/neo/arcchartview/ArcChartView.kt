@@ -135,6 +135,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
         clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            style = Paint.Style.FILL_AND_STROKE
             color = Color.TRANSPARENT
             xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
         }
@@ -323,7 +324,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
         //Draw Sections space (Clear)
-        var radius = ((linesSpace + linesWidth)*(linesCount))*2
+        var radius = Math.sqrt(Math.pow(width.toDouble(), 2.0) + Math.pow(height.toDouble(), 2.0)).toFloat()
         for(j in 0..(sectionsCount-1)){
             var degree = (j*sectionDegree).toDouble()
 
@@ -337,7 +338,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         //Draw icons
         val iconsRect = getDrawingIconsRect()
-
         for(j in 0..(iconsRect.size-1)){
             val bmp = sectionIcons[j] ?: continue
             tmpSrcRect.set(0,0, bmp.width, bmp.height)
