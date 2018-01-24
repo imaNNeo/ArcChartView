@@ -22,6 +22,7 @@
         app:acv_icon_size="32dp"
         app:acv_mid_start_extra_offset="12dp"
         android:padding="8dp"
+        android:background="#fff"
         />
 
 

@@ -13,8 +13,6 @@
 
         <attr name="acv_icon_size" format="dimension"/>
         <attr name="acv_icon_margin" format="dimension"/>
-
-        <attr name="acv_bg_color" format="color"/>
     </declare-styleable>
     
 </resources>

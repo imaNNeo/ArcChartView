@@ -19,7 +19,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     private var drawingCanvas : Canvas? = null
 
     private var drawLinePaint: Paint
-    private var bgPaint : Paint
     private var clearPaint : Paint
 
 
@@ -78,11 +77,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             requestLayout()
         }
 
-    var bgColor : Int = 0
-        set(value) {
-            field = value
-            invalidate()
-        }
 
     var listener: AcvListener? = null
 
@@ -114,8 +108,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         iconSize  = DpHandler.dpToPx(mContext,32).toFloat()
         iconMargin = DpHandler.dpToPx(mContext,6).toFloat()
 
-        bgColor = Color.WHITE
-
         if(attrs!=null){
             val a = mContext.obtainStyledAttributes(attrs,R.styleable.ArcChartView)
 
@@ -131,8 +123,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             iconSize = a.getDimension(R.styleable.ArcChartView_acv_icon_size,iconSize)
             iconMargin = a.getDimension(R.styleable.ArcChartView_acv_icon_margin,iconMargin)
 
-            bgColor = a.getColor(R.styleable.ArcChartView_acv_bg_color,Color.WHITE)
-
             a.recycle()
         }
 
@@ -142,11 +132,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             style = Paint.Style.STROKE
         }
         refreshLinesWidthRelateds()
-
-
-        bgPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = bgColor
-        }
 
 
         clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -298,10 +283,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         val centerX = (width/2).toFloat()
         val centerY = (height/2).toFloat()
 
-        //Draw Background
-        c?.drawRect(0f,0f, width.toFloat(), height.toFloat(),bgPaint)
-
-
         //Draw unfilled arc lines
         for(i in 1..linesCount){
             val left = centerX - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
@@ -361,7 +342,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             val bmp = sectionIcons[j] ?: continue
             tmpSrcRect.set(0,0, bmp.width, bmp.height)
             tmpDstRect.set(iconsRect[j])
-            drawingCanvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
+            drawingCanvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,null)
         }
 
 
