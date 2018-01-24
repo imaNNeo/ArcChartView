@@ -80,7 +80,7 @@ and all of them is arbitary,and can change via xml or java code/
 
 
 ### * in Code
-```
+```kotlin
 //acv_lines_count
 myArcChartView.linesCount = 10
   
@@ -108,14 +108,14 @@ myArcChartView.iconSize = DpHandler.dpToPx(ctx,32)
 keep in mind that sections position starts with 0
 
 to get a section value use this function
-```
+```kotlin
 value = myArcChartView.getSectionValue(sectionPos)
 ```
 
 
 
 and to set a section value use this function
-```
+```kotlin
 myArcChartView.getSectionValue(sectionPos,sectionValue)
 ```
 
@@ -125,12 +125,12 @@ myArcChartView.getSectionValue(sectionPos,sectionValue)
 
 ## change filled and unFilled colors
 to set the unFilled color (the section color that drawn behind) use this function
-```
+```kotlin
 myArcChartView.setFilldeColor(sectionPos, Color.BLACK)
 ```
 
 and to set the filled color (the section color that drawn in top) use this function
-```
+```kotlin
 myArcChartView.setUnFilldeColor(sectionPos,Color.LTGRAY)
 ```
 
@@ -140,7 +140,7 @@ myArcChartView.setUnFilldeColor(sectionPos,Color.LTGRAY)
 
 ## change section icons
 to set the icons use this function
-```
+```kotlin
 myArcChartView.setIcon(sectionPos,bitmap)
 ```
 
@@ -151,7 +151,7 @@ myArcChartView.setIcon(sectionPos,bitmap)
 ## View listener (ArcListener)
 you can handle some actions (only sectionsIconClick for now)
 just set a listener and make your logic
-```
+```kotlin
 myArcChartView.listener = object : ArcChartView.AcvListener {
             override fun onSectionsIconClicked(sectionPos: Int) {
                 //Handle Your Logic Here
@@ -167,7 +167,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 ### Sample 1
 
-```
+```xml
     <com.neo.arcchartview.ArcChartView
         android:id="@+id/arc_chart_view"
         android:layout_width="wrap_content"
@@ -192,7 +192,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 ### Sample 2
 
-```
+```xml
     <com.neo.arcchartview.ArcChartView
         android:id="@+id/arc_chart_view"
         android:layout_width="wrap_content"
@@ -217,7 +217,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 ### Sample 3
 
-```
+```xml
     <com.neo.arcchartview.ArcChartView
         android:id="@+id/arc_chart_view"
         android:layout_width="wrap_content"
