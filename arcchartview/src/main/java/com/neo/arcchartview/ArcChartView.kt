@@ -14,6 +14,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         View(mContext,attrs, defStyleAttr) {
 
 
+    private var tmpBitmap : Bitmap? = null
+    private var isResized = false
+    private var drawingCanvas : Canvas? = null
+
     private var drawLinePaint: Paint
     private var bgPaint : Paint
     private var clearPaint : Paint
@@ -146,8 +150,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
 
         clearPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            color = bgColor
-            style = Paint.Style.FILL_AND_STROKE
+            color = Color.TRANSPARENT
+            xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
         }
         refreshSectionsSpaceRelateds()
     }
@@ -248,6 +252,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         setMeasuredDimension(mWidth,mHeight)
     }
 
+    override fun requestLayout() {
+        isResized = true
+        super.requestLayout()
+    }
 
     private fun calculateDesireWidth() : Int {
         //Whole Chart Space (linesWidth + linesSpace + midExtraSize)
@@ -276,14 +284,22 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     }
 
 
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
+    override fun onDraw(c: Canvas?) {
+        super.onDraw(c)
+
+        if(tmpBitmap==null || isResized) {
+            tmpBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            tmpBitmap?.eraseColor(Color.TRANSPARENT)
+            isResized=false
+            drawingCanvas = Canvas(tmpBitmap)
+        }
+
 
         val centerX = (width/2).toFloat()
         val centerY = (height/2).toFloat()
 
         //Draw Background
-        canvas?.drawRect(0f,0f, width.toFloat(), height.toFloat(),bgPaint)
+        c?.drawRect(0f,0f, width.toFloat(), height.toFloat(),bgPaint)
 
 
         //Draw unfilled arc lines
@@ -299,7 +315,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
                 val sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
-                canvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
+                drawingCanvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
             }
 
         }
@@ -319,13 +335,13 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
                 val sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
-                canvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
+                drawingCanvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
             }
         }
 
 
 
-        //Draw Sections space
+        //Draw Sections space (Clear)
         var radius = ((linesSpace + linesWidth)*(linesCount))*2
         for(j in 0..(sectionsCount-1)){
             var degree = (j*sectionDegree).toDouble()
@@ -333,7 +349,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             var endX = Math.cos(Math.toRadians(degree)).toFloat()
             var endY = Math.sin(Math.toRadians(degree)).toFloat()
 
-            canvas?.drawLine(centerX,centerY,centerX + (endX*radius),centerY + (endY*radius),clearPaint)
+            drawingCanvas?.drawLine(centerX,centerY,centerX + (endX*radius),centerY + (endY*radius),clearPaint)
         }
 
 
@@ -345,8 +361,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             val bmp = sectionIcons[j] ?: continue
             tmpSrcRect.set(0,0, bmp.width, bmp.height)
             tmpDstRect.set(iconsRect[j])
-            canvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
+            drawingCanvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,bgPaint)
         }
+
+
+
+        c?.drawBitmap(tmpBitmap,0f,0f,null)
 
     }
 
