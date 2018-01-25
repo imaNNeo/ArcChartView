@@ -140,6 +140,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_OUT)
         }
         refreshSectionsSpaceRelateds()
+
+
+
+
+        sectionIcons.clear()
+        sectionIcons.add(0,BitmapFactory.decodeResource(context.resources,R.drawable.ic_star))
     }
 
     private fun initRefreshCountRelateds() {
@@ -186,12 +192,6 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             unfilledColors.add(i,color)
         }
 
-
-
-        sectionIcons.clear()
-        for(i in 0 until sectionsCount) {
-            sectionIcons.add(i,BitmapFactory.decodeResource(context.resources,R.drawable.ic_star))
-        }
     }
     private fun refreshLinesWidthRelateds() {
         drawLinePaint?.let {
@@ -281,6 +281,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         }
 
 
+        drawingCanvas?.drawColor(Color.TRANSPARENT,PorterDuff.Mode.CLEAR)
+
         val centerX = (width/2).toFloat()
         val centerY = (height/2).toFloat()
 
@@ -339,8 +341,11 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         //Draw icons
         val iconsRect = getDrawingIconsRect()
         for(j in 0..(iconsRect.size-1)){
-            val bmp = sectionIcons[j] ?: continue
-            tmpSrcRect.set(0,0, bmp.width, bmp.height)
+            val bmp = (if(sectionIcons.size>0)
+                sectionIcons[j%sectionIcons.size]
+            else continue) ?: continue
+
+            tmpSrcRect.set(0,0, bmp!!.width, bmp!!.height)
             tmpDstRect.set(iconsRect[j])
             drawingCanvas?.drawBitmap(bmp,tmpSrcRect,tmpDstRect,null)
         }
@@ -409,13 +414,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         invalidate()
     }
 
-    fun getIcon(section: Int) : Bitmap?{
-        if(section<0 || section>(sectionsCount-1))return null
-        return sectionIcons[section]
-    }
-    fun setIcon(section: Int, icn: Bitmap?){
-        if(section<0 || section>(sectionsCount-1))return
-        sectionIcons[section] = icn
+    fun setSectionIcons(sectionIcons : MutableList<Bitmap?>){
+        this.sectionIcons = sectionIcons
         invalidate()
     }
 

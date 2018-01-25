@@ -1,5 +1,6 @@
 package com.neo.arcchartviewdemo
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -45,14 +46,16 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
 
 
         //Change Icons
-//        myArcChartView.setIcon(0,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic1))
-//        myArcChartView.setIcon(1,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic2))
-//        myArcChartView.setIcon(2,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic3))
-//        myArcChartView.setIcon(3,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic4))
-//        myArcChartView.setIcon(4,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic5))
-//        myArcChartView.setIcon(5,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic6))
-//        myArcChartView.setIcon(6,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic7))
-//        myArcChartView.setIcon(7,BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic8))
+        myArcChartView.setSectionIcons(mutableListOf(
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic1),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic2),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic3),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic4),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic5),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic6),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic7),
+                BitmapFactory.decodeResource(this@MainActivity.resources,R.drawable.ic8)
+        ))
 
         //IconsClickListener
         myArcChartView.listener = object : ArcChartView.AcvListener {
