@@ -170,11 +170,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 
 
-## 3 - Some Samples
-
-
-### Sample 1
-
+## Implementing Rotate Animation (using startDegreeOffset attribute)
 ```kotlin
     val anim = ValueAnimator.ofFloat(0f,360f).apply {
                 repeatCount = ValueAnimator.INFINITE
@@ -192,7 +188,12 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 <img src="./repo_files/images/sample1.gif" width="300">
 
 
-### Sample 2
+
+
+
+## 3 - Some Samples
+
+### Sample 1
 
 ```xml
     <com.neo.arcchartview.ArcChartView
@@ -217,7 +218,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 
 
-### Sample 3
+### Sample 2
 
 ```xml
     <com.neo.arcchartview.ArcChartView
@@ -242,7 +243,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 
 
-### Sample 4
+### Sample 3
 
 ```xml
     <com.neo.arcchartview.ArcChartView
