@@ -175,6 +175,25 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 
 ### Sample 1
 
+```kotlin
+    val anim = ValueAnimator.ofFloat(0f,360f).apply {
+                repeatCount = ValueAnimator.INFINITE
+                repeatMode = ValueAnimator.RESTART
+                interpolator = OvershootInterpolator()
+                duration = 3000
+            }
+            anim.addUpdateListener {
+                if(isAnimating)
+                    myArcChartView.startDegreeOffset =
+                            it.animatedValue as Float
+            }
+            anim.start()
+```
+<img src="./repo_files/images/sample1.gif" width="300">
+
+
+### Sample 2
+
 ```xml
     <com.neo.arcchartview.ArcChartView
         android:id="@+id/arc_chart_view"
@@ -193,12 +212,12 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
         app:acv_mid_start_extra_offset="12dp"
         />
 ```
-<img src="./repo_files/images/sample1.png" width="300">
+<img src="./repo_files/images/sample2.png" width="300">
 
 
 
 
-### Sample 2
+### Sample 3
 
 ```xml
     <com.neo.arcchartview.ArcChartView
@@ -218,12 +237,12 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
         app:acv_mid_start_extra_offset="0dp"
         />
 ```
-<img src="./repo_files/images/sample2.png" width="300">
+<img src="./repo_files/images/sample3.png" width="300">
 
 
 
 
-### Sample 3
+### Sample 4
 
 ```xml
     <com.neo.arcchartview.ArcChartView
@@ -243,7 +262,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
         app:acv_mid_start_extra_offset="8dp"
         />
 ```
-<img src="./repo_files/images/sample3.png" width="300">
+<img src="./repo_files/images/sample4.png" width="300">
 
 
 
