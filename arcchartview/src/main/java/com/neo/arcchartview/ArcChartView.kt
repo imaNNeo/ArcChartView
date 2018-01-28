@@ -77,6 +77,12 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             requestLayout()
         }
 
+    var startDegreeOffset: Float = 20f
+        set(value) {
+            field = value
+            invalidate()
+        }
+
 
     var listener: AcvListener? = null
 
@@ -108,6 +114,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         iconSize  = DpHandler.dpToPx(mContext,32).toFloat()
         iconMargin = DpHandler.dpToPx(mContext,6).toFloat()
 
+        startDegreeOffset = 0f
+
         if(attrs!=null){
             val a = mContext.obtainStyledAttributes(attrs,R.styleable.ArcChartView)
 
@@ -122,6 +130,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
             iconSize = a.getDimension(R.styleable.ArcChartView_acv_icon_size,iconSize)
             iconMargin = a.getDimension(R.styleable.ArcChartView_acv_icon_margin,iconMargin)
+
+            startDegreeOffset = a.getFloat(R.styleable.ArcChartView_acv_start_degree_offset,startDegreeOffset)
 
             a.recycle()
         }
@@ -295,7 +305,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
             for(j in 0..(sectionsCount-1)){
                 drawLinePaint.color = filledColors[j]
-                val startDegree = (j*sectionDegree)
+                val startDegree = startDegreeOffset + (j*sectionDegree)
                 val sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
@@ -315,7 +325,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             for(j in 0..(sectionsCount-1)){
                 if(sectionsValue[j]>i-1)continue
                 drawLinePaint.color = unfilledColors!![j]
-                val startDegree = (j*sectionDegree)
+                val startDegree = startDegreeOffset + (j*sectionDegree)
                 val sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
@@ -328,7 +338,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         //Draw Sections space (Clear)
         var radius = Math.sqrt(Math.pow(width.toDouble(), 2.0) + Math.pow(height.toDouble(), 2.0)).toFloat()
         for(j in 0..(sectionsCount-1)){
-            var degree = (j*sectionDegree).toDouble()
+            var degree = (startDegreeOffset + (j*sectionDegree)).toDouble()
 
             var endX = Math.cos(Math.toRadians(degree)).toFloat()
             var endY = Math.sin(Math.toRadians(degree)).toFloat()
@@ -364,7 +374,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         val radius = (((linesSpace + linesWidth)*(linesCount) + (linesWidth))) + (midStartExtraOffset/2) + iconMargin + (iconSize / 2)
         for(j in 0..(sectionsCount-1)){
-            var degree = (j*(sectionDegree)).toDouble()
+            var degree = (startDegreeOffset + j*(sectionDegree)).toDouble()
             degree += (sectionDegree/2)
 
             var endX = Math.cos(Math.toRadians(degree)).toFloat()

@@ -13,6 +13,8 @@
 
         <attr name="acv_icon_size" format="dimension"/>
         <attr name="acv_icon_margin" format="dimension"/>
+
+        <attr name="acv_start_degree_offset" format="float"/>
     </declare-styleable>
     
 </resources>

@@ -21,6 +21,7 @@
         app:acv_sections_space="2dp"
         app:acv_icon_size="32dp"
         app:acv_mid_start_extra_offset="12dp"
+        app:acv_start_degree_offset="0"
         android:padding="8dp"
         android:background="#fff"
         />
