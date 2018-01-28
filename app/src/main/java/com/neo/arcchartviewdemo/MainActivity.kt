@@ -1,9 +1,11 @@
 package com.neo.arcchartviewdemo
 
+import android.animation.ValueAnimator
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.view.animation.OvershootInterpolator
 import android.widget.*
 import com.neo.arcchartview.ArcChartView
 import com.neo.arcchartview.DpHandler
@@ -18,9 +20,13 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
     lateinit var spSection : Spinner
     lateinit var sbSectionsValue: SeekBar
 
+    lateinit var swAnimate : Switch
+
 
     var actionsList : MutableList<String> = mutableListOf()
     var sectionsList : MutableList<String> = mutableListOf()
+
+    var isAnimating = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +39,12 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
 
         spSection = findViewById(R.id.sp_sections)
         sbSectionsValue = findViewById(R.id.sb_sectionsValue)
+
+        swAnimate = findViewById(R.id.sw_anim)
+        swAnimate.setOnCheckedChangeListener { buttonView, isChecked ->
+            isAnimating = isChecked
+        }
+
 
         initSpinner()
         refreshSpinnerSections()
@@ -63,6 +75,23 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
                 Toast.makeText(applicationContext, sectionPos.toString(),Toast.LENGTH_SHORT).show()
             }
         }
+
+
+        //Rotate Animation using startDegreeOffset
+        val anim = ValueAnimator.ofFloat(0f,360f).apply {
+            repeatCount = ValueAnimator.INFINITE
+            repeatMode = ValueAnimator.RESTART
+            interpolator = OvershootInterpolator()
+            duration = 3000
+        }
+        anim.addUpdateListener {
+            if(isAnimating)
+                myArcChartView.startDegreeOffset =
+                        it.animatedValue as Float
+        }
+        anim.start()
+
+
     }
 
     private fun initSpinner() {

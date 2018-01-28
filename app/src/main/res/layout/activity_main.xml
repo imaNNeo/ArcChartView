@@ -132,4 +132,23 @@
         />
 
 
+    <Switch
+        android:id="@+id/sw_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/view_separator"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Animate"
+        app:layout_constraintRight_toLeftOf="@id/sw_anim"
+        app:layout_constraintTop_toTopOf="@id/sw_anim"
+        app:layout_constraintBottom_toBottomOf="@id/sw_anim"
+        android:layout_marginRight="6dp"
+        android:textColor="#000"
+        />
+
 </android.support.constraint.ConstraintLayout>
