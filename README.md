@@ -78,6 +78,10 @@ and all of them is arbitary,and can change via xml or java code/
 * `acv_icon_size`
   by this property you can specify the icons size, default value is `32dp`
 
+* `acv_start_degree_offset`
+  by this property you can specify offset of start degree to design the view, default value is `0f`
+  
+  
 
 ### * in Code
 ```kotlin
@@ -101,6 +105,9 @@ myArcChartView.midStartExtraOffset = DpHandler.dpToPx(ctx,16)
  
 //acv_icon_size
 myArcChartView.iconSize = DpHandler.dpToPx(ctx,32) 
+
+//acv_start_degree_offset
+myArcChartView.startDegreeOffset = 0f 
 ```
 
 
