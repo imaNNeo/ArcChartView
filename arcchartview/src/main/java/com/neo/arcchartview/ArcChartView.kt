@@ -83,8 +83,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             invalidate()
         }
 
+    var allowSettingValueByTouch = true
 
     var listener: AcvListener? = null
+
 
 
 
@@ -116,6 +118,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         startDegreeOffset = 0f
 
+        allowSettingValueByTouch = true;
+
         if(attrs!=null){
             val a = mContext.obtainStyledAttributes(attrs,R.styleable.ArcChartView)
 
@@ -132,6 +136,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             iconMargin = a.getDimension(R.styleable.ArcChartView_acv_icon_margin,iconMargin)
 
             startDegreeOffset = a.getFloat(R.styleable.ArcChartView_acv_start_degree_offset,startDegreeOffset)
+
+            allowSettingValueByTouch = a.getBoolean(R.styleable.ArcChartView_acv_allow_setting_value_by_touch,allowSettingValueByTouch)
 
             a.recycle()
         }
@@ -437,15 +443,18 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN -> {
-                downX = event.x
-                downY = event.y
 
-                val secLine = handleTouchSectionLine(downX,downY)
-                touchingSection = secLine.first
-                touchingSectionValue = secLine.second
+                if(allowSettingValueByTouch) {
+                    downX = event.x
+                    downY = event.y
 
-                setSectionValue(secLine.first,secLine.second)
-                listener?.onStartSettingSectionValue(secLine.first,secLine.second)
+                    val secLine = handleTouchSectionLine(downX, downY)
+                    touchingSection = secLine.first
+                    touchingSectionValue = secLine.second
+
+                    setSectionValue(secLine.first, secLine.second)
+                    listener?.onStartSettingSectionValue(secLine.first, secLine.second)
+                }
             }
             MotionEvent.ACTION_UP -> {
                 if(downX==event.x && downY==event.y){
