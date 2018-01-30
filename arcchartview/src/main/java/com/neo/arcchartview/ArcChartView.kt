@@ -433,6 +433,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     var downX = 0f
     var downY = 0f
     var touchingSection : Int = -1
+    var touchingSectionValue : Int = -1
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN -> {
@@ -441,20 +442,35 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
                 val secLine = handleTouchSectionLine(downX,downY)
                 touchingSection = secLine.first
+                touchingSectionValue = secLine.second
 
                 setSectionValue(secLine.first,secLine.second)
+                listener?.onStartSettingSectionValue(secLine.first,secLine.second)
             }
             MotionEvent.ACTION_UP -> {
                 if(downX==event.x && downY==event.y){
                     //Click happened
                     handleOnClick(event)
                 }
+
+                if(touchingSection!=-1 && touchingSectionValue!=-1) {
+                    listener?.onFinishedSettingSectionValue(touchingSection,touchingSectionValue)
+                    touchingSection = -1
+                    touchingSectionValue = -1
+                }
             }
             MotionEvent.ACTION_MOVE -> {
                 val secLine = handleTouchSectionLine(event.x,event.y)
 
-                if(touchingSection == secLine.first && touchingSection!=-1)
-                    setSectionValue(secLine.first,secLine.second)
+                if(touchingSection == secLine.first && touchingSection!=-1) {
+                    if(touchingSectionValue != secLine.second) {
+                        setSectionValue(secLine.first, secLine.second)
+                        listener?.onContinueSettingSectionValue(secLine.first, secLine.second)
+                    }
+
+                    touchingSectionValue = secLine.second
+                }
+
             }
         }
         return true
@@ -499,8 +515,9 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
                 foundLine = i
                 break
             }
-
         }
+
+        if(foundLine==-1)foundLine = linesCount
 
         return Pair(foundSection,foundLine)
     }
@@ -521,5 +538,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
     interface AcvListener {
         fun onSectionsIconClicked(sectionPos : Int){}
+        fun onStartSettingSectionValue(sectionPos : Int, sectionValue : Int){}
+        fun onContinueSettingSectionValue(sectionPos : Int, sectionValue : Int){}
+        fun onFinishedSettingSectionValue(sectionPos : Int, sectionValue : Int){}
     }
 }

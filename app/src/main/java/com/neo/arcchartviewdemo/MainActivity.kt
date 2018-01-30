@@ -4,6 +4,7 @@ import android.animation.ValueAnimator
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.*
@@ -73,6 +74,18 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         myArcChartView.listener = object : ArcChartView.AcvListener {
             override fun onSectionsIconClicked(sectionPos: Int) {
                 Toast.makeText(applicationContext, sectionPos.toString(),Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onStartSettingSectionValue(sectionPos: Int, sectionValue: Int) {
+                Log.d("SS","onStartSettingSectionValue $sectionPos $sectionValue")
+            }
+
+            override fun onContinueSettingSectionValue(sectionPos: Int, sectionValue: Int) {
+                Log.d("SS","onContinueSettingSectionValue $sectionPos $sectionValue")
+            }
+
+            override fun onFinishedSettingSectionValue(sectionPos: Int, sectionValue: Int) {
+                Log.d("SS","onFinishedSettingSectionValue $sectionPos $sectionValue")
             }
         }
 
