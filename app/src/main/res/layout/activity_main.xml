@@ -20,7 +20,7 @@
         app:acv_sections_count="8"
         app:acv_sections_space="2dp"
         app:acv_icon_size="32dp"
-        app:acv_mid_start_extra_offset="12dp"
+        app:acv_mid_start_extra_offset="28dp"
         app:acv_start_degree_offset="0"
         app:acv_allow_setting_value_by_touch="true"
         android:padding="8dp"

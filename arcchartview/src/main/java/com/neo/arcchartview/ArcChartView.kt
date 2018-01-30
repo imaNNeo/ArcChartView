@@ -111,7 +111,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         sectionsCount = 8
         sectionsSpace = DpHandler.dpToPx(mContext,4).toFloat()
 
-        midStartExtraOffset = DpHandler.dpToPx(mContext,16).toFloat()
+        midStartExtraOffset = DpHandler.dpToPx(mContext,28).toFloat()
 
         iconSize  = DpHandler.dpToPx(mContext,32).toFloat()
         iconMargin = DpHandler.dpToPx(mContext,6).toFloat()
