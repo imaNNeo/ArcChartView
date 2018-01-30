@@ -512,9 +512,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         var foundLine : Int = -1
         for(i in 1..linesCount){
             //Current checking line distance
-            val distance =
-                    if(i>=1) midStartExtraOffset/2 + i*(linesWidth+linesSpace)
-                    else midStartExtraOffset/2
+            val distance = midStartExtraOffset/2 + i*(linesWidth+linesSpace)
 
             if(r <= midStartExtraOffset/2){
                 foundLine = 0
