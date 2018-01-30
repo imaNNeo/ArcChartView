@@ -298,10 +298,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         //Draw unfilled arc lines
         for(i in 1..linesCount){
-            val left = centerX - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
-            val top = centerY - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
-            val right = centerX + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
-            val bot = centerY + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val left = centerX - ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
+            val top = centerY - ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
+            val right = centerX + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
+            val bot = centerY + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
                 drawLinePaint.color = filledColors[j]
@@ -317,10 +317,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         //Draw filled arc lines
         for(i in 1..linesCount){
-            val left = centerX - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
-            val top = centerY - ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
-            val right = centerX + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
-            val bot = centerY + ((((linesWidth + linesSpace) *i)+(linesWidth/2))+ (midStartExtraOffset/2))
+            val left = centerX - ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
+            val top = centerY - ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
+            val right = centerX + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
+            val bot = centerY + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
                 if(sectionsValue[j]>i-1)continue
@@ -432,11 +432,17 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
     var downX = 0f
     var downY = 0f
+    var touchingSection : Int = -1
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN -> {
                 downX = event.x
                 downY = event.y
+
+                val secLine = handleTouchSectionLine(downX,downY)
+                touchingSection = secLine.first
+
+                setSectionValue(secLine.first,secLine.second)
             }
             MotionEvent.ACTION_UP -> {
                 if(downX==event.x && downY==event.y){
@@ -444,8 +450,59 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
                     handleOnClick(event)
                 }
             }
+            MotionEvent.ACTION_MOVE -> {
+                val secLine = handleTouchSectionLine(event.x,event.y)
+
+                if(touchingSection == secLine.first && touchingSection!=-1)
+                    setSectionValue(secLine.first,secLine.second)
+            }
         }
         return true
+    }
+
+    private fun handleTouchSectionLine(touchX: Float, touchY: Float) : Pair<Int,Int> {
+        //To move center of screen as 0, 0 point
+        var dX = (touchX - (width/2)).toDouble()
+        var dY = (touchY - (height/2)).toDouble()
+
+        var r = Math.sqrt(dX*dX + dY*dY)
+        var theta = Math.toDegrees(Math.atan2(dY, dX))
+
+        if(theta<0)
+            theta = 180 + (180 - Math.abs(theta))
+
+
+        var foundSection : Int = -1
+        for(i in 0..(sectionsCount-1)){
+            //StartDegree of current checking section
+            val startDegree = startDegreeOffset + (i*sectionDegree)
+            if(theta >= startDegree && theta <= startDegree + sectionDegree){
+                //Section is Found!!
+                foundSection = i
+                break
+            }
+        }
+
+
+        var foundLine : Int = -1
+        for(i in 1..linesCount){
+            //Current checking line distance
+            val distance = midStartExtraOffset + ((i * linesWidth)+((i-1) * linesSpace))
+
+            if(r <= midStartExtraOffset + linesSpace){
+                foundLine = 0
+                break
+            }
+
+            if(r <= distance){
+                //Line is Found!!
+                foundLine = i
+                break
+            }
+
+        }
+
+        return Pair(foundSection,foundLine)
     }
 
     private fun handleOnClick(event: MotionEvent) {
