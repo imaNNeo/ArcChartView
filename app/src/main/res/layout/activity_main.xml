@@ -151,4 +151,15 @@
         android:textColor="#000"
         />
 
+    <TextView
+        android:id="@+id/tv_sectionsValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/view_separator"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginRight="6dp"
+        android:textColor="#f00"
+        android:layout_margin="4dp"
+        />
+
 </android.support.constraint.ConstraintLayout>

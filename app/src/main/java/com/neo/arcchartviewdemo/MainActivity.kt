@@ -4,7 +4,6 @@ import android.animation.ValueAnimator
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
 import android.view.animation.OvershootInterpolator
 import android.widget.*
@@ -17,6 +16,7 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
     lateinit var sbAttrsValue: SeekBar
     lateinit var spActions : Spinner
     lateinit var tvValue : TextView
+    lateinit var tvSectionsValue : TextView
 
     lateinit var spSection : Spinner
     lateinit var sbSectionsValue: SeekBar
@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
         sbAttrsValue = findViewById(R.id.sb_attrsValue)
         spActions = findViewById(R.id.sp_actions)
         tvValue = findViewById(R.id.tv_value)
+        tvSectionsValue = findViewById(R.id.tv_sectionsValue)
 
         spSection = findViewById(R.id.sp_sections)
         sbSectionsValue = findViewById(R.id.sb_sectionsValue)
@@ -77,15 +78,15 @@ class MainActivity : AppCompatActivity() ,SeekBar.OnSeekBarChangeListener{
             }
 
             override fun onStartSettingSectionValue(sectionPos: Int, sectionValue: Int) {
-                Log.d("SS","onStartSettingSectionValue $sectionPos $sectionValue")
+                tvSectionsValue.setText("onStartSettingSectionValue $sectionPos $sectionValue")
             }
 
             override fun onContinueSettingSectionValue(sectionPos: Int, sectionValue: Int) {
-                Log.d("SS","onContinueSettingSectionValue $sectionPos $sectionValue")
+                tvSectionsValue.setText("onContinueSettingSectionValue $sectionPos $sectionValue")
             }
 
             override fun onFinishedSettingSectionValue(sectionPos: Int, sectionValue: Int) {
-                Log.d("SS","onFinishedSettingSectionValue $sectionPos $sectionValue")
+                tvSectionsValue.setText("onFinishedSettingSectionValue $sectionPos $sectionValue")
             }
         }
 
