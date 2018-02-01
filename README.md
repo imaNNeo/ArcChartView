@@ -187,6 +187,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
             }
         }
 ```
+<img src="./repo_files/images/sample5.gif" width="300">
 
 
 ## Implementing Rotate Animation (using startDegreeOffset attribute)
