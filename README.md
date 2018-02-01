@@ -169,7 +169,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 ```
 
 
-## setValueByTouch
+## setValueByTouch (and callback)
 You can set values by touch and you can disable this feature by 'acv_allow_setting_value_by_touch' attribute.
 Also you can set a callBack listener to find out when values changed.
 ```kotlin
