@@ -80,7 +80,9 @@ and all of them is arbitary,and can change via xml or java code/
 
 * `acv_start_degree_offset`
   by this property you can specify offset of start degree to design the view, default value is `0f`
-  
+
+* `acv_allow_setting_value_by_touch`
+  by this property you can disable or enable allow setting value by touch feature, default value is `true`
   
 
 ### * in Code
@@ -108,6 +110,9 @@ myArcChartView.iconSize = DpHandler.dpToPx(ctx,32)
 
 //acv_start_degree_offset
 myArcChartView.startDegreeOffset = 0f 
+
+//acv_allow_setting_value_by_touch
+myArcChartView.allowSettingValueByTouch = true 
 ```
 
 
