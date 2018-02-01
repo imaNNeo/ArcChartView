@@ -169,6 +169,25 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 ```
 
 
+## setValueByTouch
+You can set values by touch and you can disable this feature by 'acv_allow_setting_value_by_touch' attribute.
+Also you can set a callBack listener to find out when values changed.
+```kotlin
+myArcChartView.listener = object : ArcChartView.AcvListener {
+            override fun onStartSettingSectionValue(sectionPos: Int, sectionValue: Int) {
+                tvSectionsValue.setText("onStartSettingSectionValue $sectionPos $sectionValue")
+            }
+
+            override fun onContinueSettingSectionValue(sectionPos: Int, sectionValue: Int) {
+                tvSectionsValue.setText("onContinueSettingSectionValue $sectionPos $sectionValue")
+            }
+
+            override fun onFinishedSettingSectionValue(sectionPos: Int, sectionValue: Int) {
+                tvSectionsValue.setText("onFinishedSettingSectionValue $sectionPos $sectionValue")
+            }
+        }
+```
+
 
 ## Implementing Rotate Animation (using startDegreeOffset attribute)
 ```kotlin
