@@ -1,4 +1,5 @@
 [![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/ArcChartView/raw/master/repo_files/AcvDemo-1-0-0.apk)
+[![](https://jitpack.io/v/imaNNeoFighT/ArcChartView.svg)](https://jitpack.io/#imaNNeoFighT/ArcChartView)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ArcChartView-green.svg?style=flat )]( https://android-arsenal.com/details/1/6599 )
 
 # ArcChartViewDemo
@@ -41,7 +42,7 @@ Add the dependency to your app build.gradle file
 ```
 dependencies
 {
-    compile 'com.github.imaNNeoFighT:ArcChartView:-SNAPSHOT'
+    compile 'com.github.imaNNeoFighT:ArcChartView:v1.0.0'
 }
 ```
 
