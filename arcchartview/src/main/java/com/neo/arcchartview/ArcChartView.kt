@@ -1,10 +1,13 @@
 package com.neo.arcchartview
+import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AccelerateInterpolator
 
 /**
  * Created by iman.
@@ -87,6 +90,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
     var listener: AcvListener? = null
 
+    var enabledAnimations = false
+
 
 
 
@@ -102,6 +107,14 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     private var tempRectf : RectF = RectF(0f,0f,0f,0f)
     private var tmpSrcRect : Rect = Rect(0,0,0,0)
     private var tmpDstRect : Rect = Rect(0,0,0,0)
+
+
+    private var middleAnimatingDegreeValue = 0f
+    private var animatingDegreeValue = 0f
+    private var animateOnSection: Int = -1
+    private var animateOnValue: Int = -1
+    private var isIncresingAnim = true
+
 
     init {
         linesCount = 10
@@ -310,7 +323,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             val bot = centerY + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
-                drawLinePaint.color = filledColors[j]
+                drawLinePaint.color = unfilledColors[j]
                 val startDegree = startDegreeOffset + (j*sectionDegree)
                 val sweepAngle = sectionDegree
 
@@ -329,13 +342,25 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             val bot = centerY + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
-                if(sectionsValue[j]>i-1)continue
-                drawLinePaint.color = unfilledColors!![j]
+                if (enabledAnimations && !isIncresingAnim && i==animateOnValue && j==animateOnSection){
+                    if (sectionsValue[j]+1 < i) continue
+                }else{
+                    if (sectionsValue[j] < i) continue
+                }
+                drawLinePaint.color = filledColors!![j]
                 val startDegree = startDegreeOffset + (j*sectionDegree)
-                val sweepAngle = sectionDegree
+                var sweepAngle = sectionDegree
 
                 tempRectf.set(left,top, right,bot)
-                drawingCanvas?.drawArc(tempRectf, startDegree,sweepAngle,false, drawLinePaint)
+
+                if(enabledAnimations && i==animateOnValue && j==animateOnSection) {
+                    //LastLine and animating section
+                    sweepAngle = (middleAnimatingDegreeValue - animatingDegreeValue)*2
+                    Log.d("SS","animatingDegreeValue = $animatingDegreeValue, sweepAngl = $sweepAngle")
+                    drawingCanvas?.drawArc(tempRectf, startDegreeOffset + animatingDegreeValue, sweepAngle, false, drawLinePaint)
+                }else{
+                    drawingCanvas?.drawArc(tempRectf, startDegree, sweepAngle, false, drawLinePaint)
+                }
             }
         }
 
@@ -406,8 +431,48 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         if(section<0 || section>(sectionsCount-1))return
         if(value<0 || value>linesCount)return
 
+
+        if(enabledAnimations)
+            if(sectionsValue[section] > value) {
+                startAnimOn(section, sectionsValue[section],false)
+            }else if(sectionsValue[section] < value){
+                startAnimOn(section, value,true)
+            }
         sectionsValue[section] = value
+
+
         invalidate()
+    }
+
+
+    private fun startAnimOn(section: Int, value: Int, isIncreasing : Boolean = true) {
+        isIncresingAnim = isIncreasing
+
+        animateOnSection = section
+        animateOnValue = value
+        val startDegree = (section * sectionDegree)
+        val endDegree = ((section+1) * sectionDegree)
+
+        middleAnimatingDegreeValue = (startDegree + endDegree) / 2
+        animatingDegreeValue = if(isIncreasing) {
+            middleAnimatingDegreeValue
+        }else{
+            startDegree
+        }
+
+        var anim = if(isIncreasing) {
+            ValueAnimator.ofFloat(animatingDegreeValue, startDegree)
+        }else {
+            ValueAnimator.ofFloat(startDegree, (startDegree + endDegree) / 2)
+        }
+
+        anim.interpolator = AccelerateInterpolator()
+        anim.duration = 300
+        anim.addUpdateListener {
+            animatingDegreeValue = anim.animatedValue as Float
+            invalidate()
+        }
+        anim.start()
     }
 
     fun getUnFilledColor(section: Int) : Int{
