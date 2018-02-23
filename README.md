@@ -87,6 +87,9 @@ and all of them is arbitary,and can change via xml or java code/
 * `acv_allow_setting_value_by_touch`
   by this property you can disable or enable allow setting value by touch feature, default value is `true`
   
+* `acv_allow_animations_on_set_values`
+  by this property you can disable or enable allow play animation on setting values, default value is `true`
+  
 
 ### * in Code
 ```kotlin
@@ -116,6 +119,9 @@ myArcChartView.startDegreeOffset = 0f
 
 //acv_allow_setting_value_by_touch
 myArcChartView.allowSettingValueByTouch = true 
+
+//acv_allow_animations_on_set_values
+myArcChartView.allowAnimationsOnSetValue = true 
 ```
 
 
@@ -293,6 +299,14 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 ```
 <img src="./repo_files/images/sample4.png" width="300">
 
+
+
+### Sample 4
+
+```kotlin
+    myArcChartView.allowAnimationsOnSetValue = true 
+```
+<img src="./repo_files/images/sample6.png" width="300">
 
 
 
