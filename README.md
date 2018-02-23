@@ -306,7 +306,7 @@ myArcChartView.listener = object : ArcChartView.AcvListener {
 ```kotlin
     myArcChartView.allowAnimationsOnSetValue = true 
 ```
-<img src="./repo_files/images/sample6.png" width="300">
+<img src="./repo_files/images/sample6.gif" width="300">
 
 
 
