@@ -88,9 +88,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
     var allowSettingValueByTouch = true
 
+    var allowAnimationsOnSetValue = true
+
     var listener: AcvListener? = null
 
-    var enabledAnimations = false
 
 
 
@@ -151,6 +152,8 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             startDegreeOffset = a.getFloat(R.styleable.ArcChartView_acv_start_degree_offset,startDegreeOffset)
 
             allowSettingValueByTouch = a.getBoolean(R.styleable.ArcChartView_acv_allow_setting_value_by_touch,allowSettingValueByTouch)
+
+            allowAnimationsOnSetValue = a.getBoolean(R.styleable.ArcChartView_acv_allow_animations_on_set_values,allowAnimationsOnSetValue)
 
             a.recycle()
         }
@@ -342,7 +345,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
             val bot = centerY + ((((linesWidth + linesSpace) * (i-1))+(linesWidth/2))+ (midStartExtraOffset/2))
 
             for(j in 0..(sectionsCount-1)){
-                if (enabledAnimations && !isIncresingAnim && i==animateOnValue && j==animateOnSection){
+                if (allowAnimationsOnSetValue && !isIncresingAnim && i==animateOnValue && j==animateOnSection){
                     if (sectionsValue[j]+1 < i) continue
                 }else{
                     if (sectionsValue[j] < i) continue
@@ -353,7 +356,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
                 tempRectf.set(left,top, right,bot)
 
-                if(enabledAnimations && i==animateOnValue && j==animateOnSection) {
+                if(allowAnimationsOnSetValue && i==animateOnValue && j==animateOnSection) {
                     //LastLine and animating section
                     sweepAngle = (middleAnimatingDegreeValue - animatingDegreeValue)*2
                     Log.d("SS","animatingDegreeValue = $animatingDegreeValue, sweepAngl = $sweepAngle")
@@ -432,7 +435,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         if(value<0 || value>linesCount)return
 
 
-        if(enabledAnimations)
+        if(allowAnimationsOnSetValue)
             if(sectionsValue[section] > value) {
                 startAnimOn(section, sectionsValue[section],false)
             }else if(sectionsValue[section] < value){
@@ -467,7 +470,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         }
 
         anim.interpolator = AccelerateInterpolator()
-        anim.duration = 300
+        anim.duration = 200
         anim.addUpdateListener {
             animatingDegreeValue = anim.animatedValue as Float
             invalidate()

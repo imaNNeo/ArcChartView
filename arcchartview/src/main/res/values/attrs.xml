@@ -17,6 +17,8 @@
         <attr name="acv_start_degree_offset" format="float"/>
 
         <attr name="acv_allow_setting_value_by_touch" format="boolean"/>
+
+        <attr name="acv_allow_animations_on_set_values" format="boolean"/>
     </declare-styleable>
-    
+
 </resources>

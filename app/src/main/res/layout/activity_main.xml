@@ -23,6 +23,7 @@
         app:acv_mid_start_extra_offset="28dp"
         app:acv_start_degree_offset="0"
         app:acv_allow_setting_value_by_touch="true"
+        app:acv_allow_animations_on_set_values="true"
         android:padding="8dp"
         android:background="#fff"
         />
