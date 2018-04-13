@@ -100,7 +100,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     private var sectionDegree : Float = 0.0f
 
     private var sectionIcons : MutableList<Bitmap?> = mutableListOf()
-    private var sectionsValue : MutableList<Int> = mutableListOf()
+    private var sectionsValue : Array<Int> = emptyArray()
     private var filledColors: MutableList<Int> = mutableListOf()
     private var unfilledColors: MutableList<Int> = mutableListOf()
 
@@ -132,7 +132,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
         startDegreeOffset = 0f
 
-        allowSettingValueByTouch = true;
+        allowSettingValueByTouch = true
 
         if(attrs!=null){
             val a = mContext.obtainStyledAttributes(attrs,R.styleable.ArcChartView)
@@ -185,11 +185,9 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         sectionDegree = (360/sectionsCount).toFloat()
 
         var value = 0
-        sectionsValue.clear()
-        for(i in 0 until sectionsCount) {
-            if(value>=linesCount)value=0
-            sectionsValue.add(i, ++value)
-        }
+        sectionsValue = Array(sectionsCount,{
+            (it%linesCount)+1
+        })
 
         filledColors.clear()
         for(i in 0 until sectionsCount) {
