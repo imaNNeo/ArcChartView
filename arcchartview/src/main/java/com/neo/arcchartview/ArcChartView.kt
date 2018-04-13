@@ -2,6 +2,8 @@ package com.neo.arcchartview
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
+import android.os.Parcel
+import android.os.Parcelable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.Log
@@ -101,6 +103,11 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
 
     private var sectionIcons : MutableList<Bitmap?> = mutableListOf()
     private var sectionsValue : Array<Int> = emptyArray()
+        set(value) {
+            field = value
+            invalidate()
+        }
+
     private var filledColors: MutableList<Int> = mutableListOf()
     private var unfilledColors: MutableList<Int> = mutableListOf()
 
@@ -184,10 +191,7 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
         if(sectionsCount<1)sectionsCount=1
         sectionDegree = (360/sectionsCount).toFloat()
 
-        var value = 0
-        sectionsValue = Array(sectionsCount,{
-            (it%linesCount)+1
-        })
+        sectionsValue = Array(sectionsCount,{ (it%linesCount)+1 })
 
         filledColors.clear()
         for(i in 0 until sectionsCount) {
@@ -608,6 +612,107 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
                 listener?.onSectionsIconClicked(j)
             }
 
+        }
+    }
+
+
+    override fun onSaveInstanceState(): Parcelable {
+        val superState = super.onSaveInstanceState()
+        val ss = SavedState(superState)
+        ss.linesCount = linesCount
+        ss.linesWidth = linesWidth
+        ss.linesSpace = linesSpace
+        ss.sectionsCount = sectionsCount
+        ss.sectionsSpace = sectionsSpace
+        ss.midStartExtraOffset = midStartExtraOffset
+        ss.iconSize = iconSize
+        ss.iconMargin = iconMargin
+        ss.startDegreeOffset = startDegreeOffset
+        ss.allowSettingValueByTouch = allowSettingValueByTouch
+        ss.allowAnimationsOnSetValue = allowAnimationsOnSetValue
+        ss.sectionsValue = sectionsValue
+        ss.sectionDegree = sectionDegree
+        return ss
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val savedState = state as SavedState
+        super.onRestoreInstanceState(savedState.superState)
+        linesCount = savedState.linesCount
+        linesWidth = savedState.linesWidth
+        linesSpace = savedState.linesSpace
+        sectionsCount = savedState.sectionsCount
+        sectionsSpace = savedState.sectionsSpace
+        midStartExtraOffset = savedState.midStartExtraOffset
+        iconSize = savedState.iconSize
+        iconMargin = savedState.iconMargin
+        startDegreeOffset = savedState.startDegreeOffset
+        allowSettingValueByTouch = savedState.allowSettingValueByTouch
+        allowAnimationsOnSetValue = savedState.allowAnimationsOnSetValue
+        sectionsValue = savedState.sectionsValue
+        sectionDegree = savedState.sectionDegree
+    }
+
+
+    class SavedState : BaseSavedState{
+        companion object CREATOR : Parcelable.Creator<SavedState>{
+            override fun createFromParcel(source: Parcel?) = SavedState(source)
+            override fun newArray(size: Int) = arrayOfNulls<SavedState?>(size)
+        }
+
+
+        var linesCount : Int = 0
+        var linesWidth: Float = 0f
+        var linesSpace : Float = 0f
+        var sectionsCount : Int = 0
+        var sectionsSpace: Float = 0f
+        var midStartExtraOffset: Float = 0f
+        var iconSize: Float = 0f
+        var iconMargin: Float = 0f
+        var startDegreeOffset: Float = 0f
+        var allowSettingValueByTouch = true
+        var allowAnimationsOnSetValue = true
+        var sectionsValue : Array<Int> = emptyArray()
+        var sectionDegree : Float = 0f
+
+        constructor(parcelable: Parcelable) : super(parcelable)
+        constructor(parcel : Parcel?) : super(parcel){
+            parcel?.let {
+                linesCount = it.readInt()
+                linesWidth = it.readFloat()
+                linesSpace = it.readFloat()
+                sectionsCount = it.readInt()
+                sectionsSpace = it.readFloat()
+                midStartExtraOffset = it.readFloat()
+                iconSize = it.readFloat()
+                iconMargin = it.readFloat()
+                startDegreeOffset = it.readFloat()
+                allowSettingValueByTouch = it.readByte() == 1.toByte()
+                allowAnimationsOnSetValue = it.readByte() == 1.toByte()
+                sectionsValue = it.readArray(ClassLoader.getSystemClassLoader()) as Array<Int>
+                sectionDegree = it.readFloat()
+            }
+
+        }
+
+        override fun writeToParcel(out: Parcel?, flags: Int) {
+            super.writeToParcel(out, flags)
+
+            out?.let {
+                it.writeInt(linesCount)
+                it.writeFloat(linesWidth)
+                it.writeFloat(linesSpace)
+                it.writeInt(sectionsCount)
+                it.writeFloat(sectionsSpace)
+                it.writeFloat(midStartExtraOffset)
+                it.writeFloat(iconSize)
+                it.writeFloat(iconMargin)
+                it.writeFloat(startDegreeOffset)
+                it.writeByte(if(allowSettingValueByTouch) 1 else 0)
+                it.writeByte(if(allowAnimationsOnSetValue) 1 else 0)
+                it.writeArray(sectionsValue)
+                it.writeFloat(sectionDegree)
+            }
         }
     }
 
