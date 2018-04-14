@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/ArcChartView/raw/master/repo_files/AcvDemo-1-0-1.apk)
+[![APK](https://img.shields.io/badge/APK-Demo-brightgreen.svg)](https://github.com/imaNNeoFighT/ArcChartView/raw/master/repo_files/AcvDemo-1-0-2.apk)
 [![](https://jitpack.io/v/imaNNeoFighT/ArcChartView.svg)](https://jitpack.io/#imaNNeoFighT/ArcChartView)
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-ArcChartView-green.svg?style=flat )]( https://android-arsenal.com/details/1/6599 )
 
@@ -58,72 +58,53 @@ just add ``ArcChartView`` in your java code or xml.
 
 ## View Properties 
 
-### * in XML
-you can use this properties for make everything you want,
-and all of them is arbitary,and can change via xml or java code/
-
-* `acv_lines_count`
-  by this property you can specify lines count of chart (i mean arc lines), default value is `10`
-
-* `acv_lines_space`
-  by this property you can specify lines space (lines margin), default value is `4dp`
+you can customize StepBarView, all of this attributes can change via xml or code (runtime)
   
-* `acv_lines_width`
-  by this property you can specify lines width , default value is `6dp`
+|Attribute|Type|Kotlin|Description|
+|:---:|:---:|:---:|:---:|
+|acv_lines_count|Integer|`linesCount`|lines count of chart (i mean arc lines), default value is `10`|
+|acv_lines_space|Dimensions|`linesSpace`|lines space (lines margin), default value is `4dp`|
+|acv_lines_width|Dimensions|`linesWidth`|lines width , default value is `6dp`|
+|acv_sections_count|Integer|`sectionsCount`|sections count , default value is `8`|
+|acv_sections_space|Dimensions|`sectionsSpace`|sections space (sections margin) , default value is `4dp`|
+|acv_mid_start_extra_offset|Dimensions|`midStartExtraOffset`|center extra offest size, default value is `16dp`|
+|acv_icon_size|Dimensions|`iconSize`|the icons size, default value is `32dp`|
+|acv_start_degree_offset|Float|`startDegreeOffset`|offset of start degree to design the view, default value is `0f`|
+|acv_allow_setting_value_by_touch|Boolean|`allowSettingValueByTouch`|disable or enable allow setting value by touch feature, default value is `true`|
+|acv_allow_animations_on_set_values|Boolean|`allowAnimationsOnSetValue`|disable or enable allow play animation on setting values, default value is `true`|
 
-* `acv_sections_count`
-  by this property you can specify sections count , default value is `8`
-
-* `acv_sections_space`
-  by this property you can specify sections space (sections margin) , default value is `4dp`
-
-* `acv_mid_start_extra_offset`
-  by this property you can specify center extra offest size, default value is `16dp`
-
-* `acv_icon_size`
-  by this property you can specify the icons size, default value is `32dp`
-
-* `acv_start_degree_offset`
-  by this property you can specify offset of start degree to design the view, default value is `0f`
-
-* `acv_allow_setting_value_by_touch`
-  by this property you can disable or enable allow setting value by touch feature, default value is `true`
-  
-* `acv_allow_animations_on_set_values`
-  by this property you can disable or enable allow play animation on setting values, default value is `true`
-  
 
 ### * in Code
 ```kotlin
 //acv_lines_count
-myArcChartView.linesCount = 10
+myArcChartView. = 10
   
 //acv_lines_space
-myArcChartView.linesSpace = DpHandler.dpToPx(ctx,4) 
+myArcChartView. = DpHandler.dpToPx(ctx,4) 
 
 //acv_lines_width
-myArcChartView.linesWidth = DpHandler.dpToPx(ctx,6)
+myArcChartView. = DpHandler.dpToPx(ctx,6)
  
 //acv_sections_count
-myArcChartView.sectionsCount = 8 
+myArcChartView. = 8 
 
 //acv_sections_space
-myArcChartView.sectionsSpace = DpHandler.dpToPx(ctx,2) 
+myArcChartView. = DpHandler.dpToPx(ctx,2) 
 
 //acv_mid_start_extra_offset
-myArcChartView.midStartExtraOffset = DpHandler.dpToPx(ctx,16)
+myArcChartView. = DpHandler.dpToPx(ctx,16)
  
 //acv_icon_size
-myArcChartView.iconSize = DpHandler.dpToPx(ctx,32) 
+myArcChartView. = DpHandler.dpToPx(ctx,32) 
 
 //acv_start_degree_offset
-myArcChartView.startDegreeOffset = 0f 
+myArcChartView. = 0f 
 
 //acv_allow_setting_value_by_touch
-myArcChartView.allowSettingValueByTouch = true 
+myArcChartView. = true 
 
 //acv_allow_animations_on_set_values
-myArcChartView.allowAnimationsOnSetValue = true 
+myArcChartView. = true 
 ```
 
 
