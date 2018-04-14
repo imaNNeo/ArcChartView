@@ -74,39 +74,6 @@ you can customize StepBarView, all of this attributes can change via xml or code
 |acv_allow_animations_on_set_values|Boolean|`allowAnimationsOnSetValue`|disable or enable allow play animation on setting values, default value is `true`|
 
 
-### * in Code
-```kotlin
-//acv_lines_count
-myArcChartView. = 10
-  
-//acv_lines_space
-myArcChartView. = DpHandler.dpToPx(ctx,4) 
-
-//acv_lines_width
-myArcChartView. = DpHandler.dpToPx(ctx,6)
- 
-//acv_sections_count
-myArcChartView. = 8 
-
-//acv_sections_space
-myArcChartView. = DpHandler.dpToPx(ctx,2) 
-
-//acv_mid_start_extra_offset
-myArcChartView. = DpHandler.dpToPx(ctx,16)
- 
-//acv_icon_size
-myArcChartView. = DpHandler.dpToPx(ctx,32) 
-
-//acv_start_degree_offset
-myArcChartView. = 0f 
-
-//acv_allow_setting_value_by_touch
-myArcChartView. = true 
-
-//acv_allow_animations_on_set_values
-myArcChartView. = true 
-```
-
 
 ## set and get Sections value
 keep in mind that sections position starts with 0
