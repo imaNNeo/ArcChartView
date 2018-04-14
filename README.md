@@ -11,7 +11,7 @@ and show your statistics or anything you want
 
 or maybe get some ratings from user.
 
-you can download the [Demo apk file](./repo_files/AcvDemo-1-0-2.apk) (you can first adjust your Chart in the app and then implement it in code)
+you can download the [Demo apk file](https://github.com/imaNNeoFighT/ArcChartView/raw/master/repo_files/AcvDemo-1-0-2.apk) (you can first adjust your Chart in the app and then implement it in code)
 
 <img src="./repo_files/images/demoo.gif" width="300">
 
