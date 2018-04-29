@@ -513,11 +513,10 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         when(event?.action){
             MotionEvent.ACTION_DOWN -> {
+                downX = event.x
+                downY = event.y
 
                 if(allowSettingValueByTouch) {
-                    downX = event.x
-                    downY = event.y
-
                     val secLine = handleTouchSectionLine(downX, downY)
                     touchingSection = secLine.first
                     touchingSectionValue = secLine.second
