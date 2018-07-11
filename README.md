@@ -5,6 +5,8 @@
 
 # ArcChartViewDemo
 
+<img src="./repo_files/images/sample_icons.png" width="200">
+
 You can use this library to draw Arc charts
 
 and show your statistics or anything you want
