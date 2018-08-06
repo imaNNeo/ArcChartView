@@ -51,7 +51,7 @@ dependencies
 }
 ```
 
-And then sync your gradle and take a tea.
+And then sync your gradle and take a tea .
 
 
 ## 2 - About The View
