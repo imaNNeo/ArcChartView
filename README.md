@@ -45,9 +45,9 @@ Add the dependency to your app build.gradle file
 ```
 dependencies
 {
-    implementation 'com.github.imaNNeoFighT:ArcChartView:1.0.3'
+    implementation 'com.github.imaNNeoFighT:ArcChartView:1.0.3.1'
     // Or in older versions : 
-    // compile 'com.github.imaNNeoFighT:ArcChartView:1.0.3'
+    // compile 'com.github.imaNNeoFighT:ArcChartView:1.0.3.1'
 }
 ```
 
