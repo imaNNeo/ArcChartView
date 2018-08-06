@@ -18,6 +18,9 @@ import android.view.animation.AccelerateInterpolator
 class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
         View(mContext,attrs, defStyleAttr) {
 
+    companion object {
+        private val IS_DEBUG = false
+    }
 
     private var tmpBitmap : Bitmap? = null
     private var isResized = false
@@ -361,7 +364,11 @@ class ArcChartView @JvmOverloads constructor(mContext : Context, attrs: Attribut
                 if(allowAnimationsOnSetValue && i==animateOnValue && j==animateOnSection) {
                     //LastLine and animating section
                     sweepAngle = (middleAnimatingDegreeValue - animatingDegreeValue)*2
-                    Log.d("SS","animatingDegreeValue = $animatingDegreeValue, sweepAngl = $sweepAngle")
+
+                    if (IS_DEBUG) {
+                        Log.d("SS", "animatingDegreeValue = $animatingDegreeValue, sweepAngl = $sweepAngle")
+                    }
+
                     drawingCanvas?.drawArc(tempRectf, startDegreeOffset + animatingDegreeValue, sweepAngle, false, drawLinePaint)
                 }else{
                     drawingCanvas?.drawArc(tempRectf, startDegree, sweepAngle, false, drawLinePaint)
