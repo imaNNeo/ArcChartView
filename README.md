@@ -111,7 +111,7 @@ myArcChartView.setUnFilldeColor(sectionPos,Color.LTGRAY)
 
 
 
-## change section icons
+## Change section icons
 to set the icons use this function
 ```kotlin
 myArcChartView.setSectionIcons(sectionIcons : MutableList<Bitmap?>)
