@@ -77,7 +77,7 @@ you can customize StepBarView, all of this attributes can change via xml or code
 
 
 
-## set and get Sections value
+## Set and get Sections value
 keep in mind that sections position starts with 0
 
 to get a section value use this function
@@ -96,7 +96,7 @@ myArcChartView.getSectionValue(sectionPos,sectionValue)
 
 
 
-## change filled and unFilled colors
+## Change filled and unFilled colors
 to set the unFilled color (the section color that drawn behind) use this function
 ```kotlin
 myArcChartView.setFilldeColor(sectionPos, Color.BLACK)
